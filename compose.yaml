@@ -12,9 +12,11 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./src
-          target: /app/src
+          path: .
+          target: /app
           ignore:
             - node_modules/
+            - package.json
+            - package-lock.json
         - action: rebuild
           path: package.json
