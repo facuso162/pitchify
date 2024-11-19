@@ -9,7 +9,7 @@
 **/.venv
 **/.classpath
 **/.dockerignore
-**/.env
+**/.env*
 **/.git
 **/.gitignore
 **/.project
@@ -31,4 +31,4 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 LICENSE
-README.md
+README*.md
