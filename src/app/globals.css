@@ -30,7 +30,7 @@ body {
   }
 
   .heading {
-    @apply uppercase bg-black font-extrabold text-2xl text-center p-2 text-white my-5 max-w-5xl md:text-4xl;
+    @apply uppercase bg-black font-extrabold text-2xl text-center p-2 text-white my-5 md:text-4xl md:p-4 lg:text-5xl;
   }
 
   .sub-heading {
