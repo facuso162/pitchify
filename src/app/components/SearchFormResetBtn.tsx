@@ -1,5 +1,7 @@
 'use client'
 
+import { XIcon } from 'lucide-react'
+
 function SearchFormResetBtn() {
   const reset = () => {
     const form: HTMLFormElement | null = document.querySelector('#searchForm')
@@ -9,7 +11,7 @@ function SearchFormResetBtn() {
 
   return (
     <button className='search-form-btn' type='reset' onClick={reset}>
-      X
+      <XIcon size={20} />
     </button>
   )
 }
