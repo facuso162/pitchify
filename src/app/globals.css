@@ -19,3 +19,50 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer components {
+  .tag {
+    @apply uppercase bg-secondary text-black font-bold px-2 py-2 text-sm rounded relative md:tag-tri md:px-4 md:py-2 md:text-base;
+  }
+
+  .pink-container {
+    @apply w-full bg-primary pattern flex flex-col justify-center items-center py-6 px-2;
+  }
+
+  .heading {
+    @apply uppercase bg-black font-extrabold text-2xl text-center p-2 text-white my-5 max-w-5xl md:text-4xl;
+  }
+
+  .sub-heading {
+    @apply font-medium text-base text-white text-center max-w-md md:max-w-2xl md:text-lg;
+  }
+
+  .search-form {
+    @apply bg-white flex justify-between gap-1 py-2 px-4 rounded-full border-2 border-black mt-5 w-full max-w-md md:max-w-2xl md:border-4 md:py-3 md:text-lg;
+  }
+
+  .search-input {
+    @apply text-black font-medium w-full;
+  }
+
+  .search-form-btn {
+    @apply bg-black text-white rounded-full flex justify-center items-center w-8 h-8;
+  }
+
+  .pattern {
+    background-image: linear-gradient(
+      to right,
+      transparent 49.5%,
+      rgba(251, 232, 67, 0.2) 49.5%,
+      rgba(251, 232, 67, 0.6) 50.5%,
+      transparent 50.5%
+    );
+    background-size: 5% 100%;
+    background-position: center;
+    background-repeat: repeat-x;
+  }
+
+  .tag-tri {
+    @apply before:content-[''] before:absolute before:top-2 before:left-2 before:border-t-[10px] before:border-t-black before:border-r-[10px] before:border-r-transparent after:content-[''] after:absolute after:bottom-2 after:right-2 after:border-b-[10px] after:border-b-black after:border-l-[10px] after:border-l-transparent;
+  }
+}
