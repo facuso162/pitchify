@@ -9,17 +9,19 @@ async function Navbar() {
   const session = await auth()
 
   return (
-    <header className='h-16 bg-slate-100 px-4 flex items-center'>
+    <header className='h-16 bg-slate-100 px-4 flex items-center md:px-16'>
       <nav className='flex justify-between items-center w-full'>
         <Link href='/'>
-          <Image src={pitchifyLogo} alt='Logo de pitchify' />
+          <div className='h-9 w-20 relative md:h-12 md:w-24'>
+            <Image src={pitchifyLogo} className='-top-1' alt='Logo de pitchify' fill />
+          </div>
         </Link>
         {session ? (
           <div className='flex items-center gap-4'>
-            <Link href={'/startup/create'} className='text-black'>
+            <Link href={'/startup/create'} className='text-black font-medium md:text-lg'>
               Create
             </Link>
-            <button className='text-[#EF4444]' onClick={singOutAction}>
+            <button className='text-primary font-medium md:text-lg' onClick={singOutAction}>
               Logout
             </button>
             <Link href={`/user/${session.user?.id}`}>
@@ -34,7 +36,7 @@ async function Navbar() {
             </Link>
           </div>
         ) : (
-          <button className='text-black' onClick={singInAction}>
+          <button className='text-black font-medium md:text-lg' onClick={singInAction}>
             Login
           </button>
         )}
