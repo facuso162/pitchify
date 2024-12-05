@@ -54,8 +54,9 @@ body {
   /* Startups */
 
   .card-grid {
-    @apply grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3;
+    @apply grid gap-5 grid-cols-1-w72 sm:grid-cols-2-w72 large-grid:grid-cols-3-w72;
   }
+
   .pattern {
     background-image: linear-gradient(
       to right,

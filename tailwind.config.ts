@@ -14,6 +14,7 @@ const config: Config = {
     extend: {
       screens: {
         xs: '475px',
+        'large-grid': '792px'
       },
       colors: {
         primary: {
@@ -45,6 +46,11 @@ const config: Config = {
         200: '2px 2px 0px 2px rgb(0, 0, 0)',
         300: '2px 2px 0px 2px rgb(238, 43, 105)',
       },
+      gridTemplateColumns: {
+        '1-w72': 'repeat(1, minmax(0 ,288px))',
+        '2-w72': 'repeat(2, minmax(0 ,288px))',
+        '3-w72': 'repeat(3, minmax(0 ,288px))'
+      }
     },
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
