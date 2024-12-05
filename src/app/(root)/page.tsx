@@ -10,6 +10,34 @@ type HomePageProps = {
 async function Home({ searchParams }: HomePageProps) {
   const { query } = await searchParams
 
+  // Mock users
+  const users = [
+    {
+      _id: 1,
+      firstName: 'Ana',
+      lastName: 'Gómez',
+      profileImage: '/default-profile-photo.png',
+    },
+    {
+      _id: 2,
+      firstName: 'Carlos',
+      lastName: 'Martínez',
+      profileImage: '/default-profile-photo.png',
+    },
+    {
+      _id: 3,
+      firstName: 'Lucía',
+      lastName: 'Pérez',
+      profileImage: '/default-profile-photo.png',
+    },
+    {
+      _id: 4,
+      firstName: 'David',
+      lastName: 'Rodríguez',
+      profileImage: '/default-profile-photo.png',
+    },
+  ]
+
   // Mock posts
   const posts: Post[] = [
     {
