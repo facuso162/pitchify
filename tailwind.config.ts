@@ -14,7 +14,12 @@ const config: Config = {
     extend: {
       screens: {
         xs: '475px',
-        'large-grid': '792px'
+        // Con este breakpoint me evito tener que andar 
+        // poniendo miles de breakpoints para cada elemento 
+        // individual de las cards. Al hacerlas de tamaño 
+        // fijo, cuando no entran, se saca una columna y 
+        // listo.
+        'large-grid': '936px',
       },
       colors: {
         primary: {
@@ -49,8 +54,8 @@ const config: Config = {
       gridTemplateColumns: {
         '1-w72': 'repeat(1, minmax(0 ,288px))',
         '2-w72': 'repeat(2, minmax(0 ,288px))',
-        '3-w72': 'repeat(3, minmax(0 ,288px))'
-      }
+        '3-w72': 'repeat(3, minmax(0 ,288px))',
+      },
     },
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
