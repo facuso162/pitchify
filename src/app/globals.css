@@ -21,6 +21,7 @@ body {
 }
 
 @layer components {
+  /* Hero */
   .tag {
     @apply uppercase bg-secondary text-black font-bold px-2 py-2 text-sm rounded relative md:tag-tri md:px-4 md:py-2 md:text-base;
   }
@@ -37,6 +38,7 @@ body {
     @apply font-medium text-base text-white text-center max-w-md md:max-w-2xl md:text-lg;
   }
 
+  /* Searchbar */
   .search-form {
     @apply bg-white flex justify-between gap-1 py-2 px-4 rounded-full border-2 border-black mt-5 w-full max-w-md md:max-w-2xl md:border-4 md:py-3 md:text-lg;
   }
@@ -49,6 +51,11 @@ body {
     @apply bg-black text-white rounded-full flex justify-center items-center w-8 h-8;
   }
 
+  /* Startups */
+
+  .card-grid {
+    @apply grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3;
+  }
   .pattern {
     background-image: linear-gradient(
       to right,
