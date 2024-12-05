@@ -8,7 +8,7 @@ function Hero({ query }: HeroProps) {
   return (
     <section className='pink-container'>
       <div>
-        <h4 className='tag'>Pitch, vote and grow</h4>
+        <h5 className='tag'>Pitch, vote and grow</h5>
       </div>
       <h1 className='heading'>
         Pitch your startup,
