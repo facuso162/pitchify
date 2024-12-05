@@ -1,3 +1,5 @@
+import StartupCard from "./StartupCard"
+
 type Post = {
   _createdAt: string
   views: number
@@ -18,15 +20,15 @@ type StartupsProps = {
 
 function Startups({ query, posts }: StartupsProps) {
   return (
-    <section className='px-2 py-6'>
-      <h2 className='text-black font-semibold text-lg'>
+    <section className='py-6'>
+      <h2 className='text-black font-semibold text-lg px-4 md:px-16'>
         {query !== '' ? `Search results for "${query}"` : `All Startups`}
       </h2>
-      <ul className='card-grid'>
+      <ul className='card-grid justify-center py-6 px-4'>
         {posts.length > 0 ? (
           posts.map(post => (
-            <li key={post._id}>
-              <article className='w-full h-20 border-2 border-black rounded'></article>
+            <li key={post._id} className='flex justify-center w-fit'>
+              <StartupCard />
             </li>
           ))
         ) : (
