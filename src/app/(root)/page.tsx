@@ -1,19 +1,6 @@
 import Hero from '../components/Hero'
 import Startups from '../components/Startups'
 
-type Post = {
-  _createdAt: string
-  views: number
-  author: {
-    _id: number
-  }
-  _id: number
-  description: string
-  image: string
-  category: string
-  title: string
-}
-
 type SearchParams = Promise<{ [key: string]: string | undefined }>
 
 type HomePageProps = {
