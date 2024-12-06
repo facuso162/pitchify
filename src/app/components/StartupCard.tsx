@@ -37,15 +37,20 @@ function StartupCard({ post }: StartupCardProps) {
         </div>
       </div>
       <p className='line-clamp-2 text-black-100 font-normal'>{post.description}</p>
-      {/* Se podria envolver en un Link a la startup tambien a la imagen */}
       <div className='w-full h-40 relative'>
-        <Image src={post.image} alt='startup image' fill className='rounded-xl' />
+        <Link href={`/startup/${post._id}`}>
+          <Image src={post.image} alt='startup image' fill className='rounded-xl' />
+        </Link>
       </div>
       <footer className='flex justify-between items-center'>
-        <span className='font-medium text-base'>{post.category}</span>
-        <button className='bg-black-200 rounded-full px-4 py-2 text-base font-medium text-white'>
+        <Link href={`/?query=${post.category.toLocaleLowerCase()}`}>
+          <span className='font-medium text-base'>{post.category}</span>
+        </Link>
+        <Link
+          href={`/?query=${post.category.toLocaleLowerCase()}`}
+          className='bg-black-200 rounded-full px-4 py-2 text-base font-medium text-white'>
           Details
-        </button>
+        </Link>
       </footer>
     </article>
   )
