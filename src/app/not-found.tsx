@@ -15,7 +15,7 @@ function NotFound() {
         </Link>
         <h1 className='text-6xl font-bold'>Page not found</h1>
 
-        <p className='text-xl font-medium'>The page you were looking for doesn't exist</p>
+        <p className='text-xl font-medium'>The page you were looking for doesn&apost exist</p>
 
         <Link
           href='/'
