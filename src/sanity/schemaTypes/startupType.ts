@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const startupType = defineType({
   name: 'startup',
@@ -19,7 +19,7 @@ export const startupType = defineType({
     defineField({
       name: 'author',
       type: 'reference',
-      to: {type: 'author'},
+      to: { type: 'author' },
     }),
     defineField({
       name: 'views',
@@ -32,12 +32,12 @@ export const startupType = defineType({
     defineField({
       name: 'category',
       type: 'string',
-      validation: (rule) => rule.min(1).max(20).required().error('Please enter a category'),
+      validation: rule => rule.min(1).max(20).required().error('Please enter a category'),
     }),
     defineField({
       name: 'image',
       type: 'url',
-      validation: (rule) => rule.required().error('Please enter an image'),
+      validation: rule => rule.required().error('Please enter an image'),
     }),
     defineField({
       name: 'pitch',
