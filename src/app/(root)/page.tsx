@@ -2,8 +2,7 @@ import Hero from '../components/Hero'
 import Startups from '../components/Startups'
 import { client } from '@/src/sanity/lib/client'
 import { STARTUPS_QUERY } from '@/src/sanity/lib/queries'
-
-type SearchParams = Promise<{ [key: string]: string | undefined }>
+import { SearchParams } from '../types/general'
 
 type HomePageProps = {
   searchParams: SearchParams
