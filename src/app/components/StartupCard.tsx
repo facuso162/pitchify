@@ -2,19 +2,21 @@ import Image from 'next/image'
 import { Eye } from 'lucide-react'
 import Link from 'next/link'
 import { STARTUPS_QUERYResult } from '@/src/sanity/types'
+import { parseDate } from '../utils/parse'
 
 type StartupCardProps = {
   startup: STARTUPS_QUERYResult[number]
 }
 
 function StartupCard({ startup }: StartupCardProps) {
+  // Hay que hacer que las imagenes las maneje sanity
   const { _createdAt, author, category, description, image, slug, title, views } = startup
 
   return (
     <article className='bg-white w-full border-4 border-black rounded-3xl text-black py-6 px-5 shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100 max-w-72 flex flex-col gap-2'>
       <header className='flex justify-between'>
         <div className='bg-primary-100 px-4 py-2 rounded-full'>
-          <span className='font-medium'>{_createdAt}</span>
+          <span className='font-medium'>{parseDate(_createdAt)}</span>
         </div>
         <div className='flex items-center gap-1'>
           <Eye size={20} className='text-primary' />
