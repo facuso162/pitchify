@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 
+// Hay que mejorar este tipo
 export const startupType = defineType({
   name: 'startup',
   title: 'Startup',
@@ -8,6 +9,7 @@ export const startupType = defineType({
     defineField({
       name: 'title',
       type: 'string',
+      validation: rule => rule.required().error('Please enter a title'),
     }),
     defineField({
       name: 'slug',
@@ -29,6 +31,7 @@ export const startupType = defineType({
     defineField({
       name: 'description',
       type: 'text',
+      validation: rule => rule.required().error('Please enter a description'),
     }),
     defineField({
       name: 'category',
@@ -37,12 +40,13 @@ export const startupType = defineType({
     }),
     defineField({
       name: 'image',
-      type: 'url',
+      type: 'string',
       validation: rule => rule.required().error('Please enter an image'),
     }),
     defineField({
       name: 'pitch',
       type: 'markdown',
+      validation: rule => rule.required().error('Please enter a pitch'),
     }),
   ],
 })

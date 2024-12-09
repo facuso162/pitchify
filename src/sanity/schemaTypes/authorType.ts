@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 
+// Hay que mejorar este tipo
 export const authorType = defineType({
   name: 'author',
   title: 'Author',
@@ -23,7 +24,7 @@ export const authorType = defineType({
     }),
     defineField({
       name: 'image',
-      type: 'url',
+      type: 'string',
     }),
     defineField({
       name: 'bio',
