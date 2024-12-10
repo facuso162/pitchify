@@ -10,7 +10,8 @@ type StartupCardProps = {
 
 function StartupCard({ startup }: StartupCardProps) {
   // Hay que hacer que las imagenes las maneje sanity
-  const { _createdAt, author, category, description, image, slug, title, views } = startup
+  const { _createdAt, author, category, description, slug, title, views, imageUrl, imageAlt } =
+    startup
 
   return (
     <article className='bg-white w-full border-4 border-black rounded-3xl text-black py-6 px-5 shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100 max-w-72 flex flex-col gap-2'>
@@ -34,7 +35,12 @@ function StartupCard({ startup }: StartupCardProps) {
         </div>
         <div className='w-10 h-10 relative'>
           <Link href={`/user/${author?.id}`}>
-            <Image src={author?.image || './default-profile-photo.png'} fill alt='profile pic' />
+            <Image
+              src={author?.imageUrl || './default-profile-photo.png'}
+              fill
+              alt={author?.imageAlt || 'Profile photo'}
+              className='rounded-full'
+            />
           </Link>
         </div>
       </div>
@@ -42,8 +48,8 @@ function StartupCard({ startup }: StartupCardProps) {
       <div className='w-full h-40 relative'>
         <Link href={`/startup/${slug}`}>
           <Image
-            src={image || './default-image.png'}
-            alt='startup image'
+            src={imageUrl || './default-image.png'}
+            alt={imageAlt || 'Startup post image'}
             fill
             className='rounded-xl'
           />
