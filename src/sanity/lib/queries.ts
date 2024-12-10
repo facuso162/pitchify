@@ -1,13 +1,12 @@
 import { defineQuery } from 'next-sanity'
 
 export const STARTUPS_QUERY = defineQuery(`
-    *
-    [_type == 'startup']
-    {
+*[_type == 'startup']{
     'slug': slug.current,
     title, 
     description, 
-    image, 
+    'imageAlt': image.alt, 
+    'imageUrl':image.asset -> .url,
     pitch, 
     category, 
     views, 
@@ -17,8 +16,9 @@ export const STARTUPS_QUERY = defineQuery(`
         username,
         email,
         name,
-        image,
+        'imageAlt': image.alt,
+        'imageUrl': image.asset -> .url,
         bio,     
     },
-    }
+}
 `)
