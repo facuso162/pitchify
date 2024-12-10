@@ -40,7 +40,18 @@ export const startupType = defineType({
     }),
     defineField({
       name: 'image',
-      type: 'string',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        {
+          name: 'alt',
+          title: 'Alt',
+          type: 'string',
+          validation: rule => rule.required().error('Please enter an alt text for the image'),
+        },
+      ],
       validation: rule => rule.required().error('Please enter an image'),
     }),
     defineField({
