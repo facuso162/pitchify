@@ -39,22 +39,6 @@ export type SanityImageDimensions = {
   aspectRatio?: number
 }
 
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x?: number
-  y?: number
-  height?: number
-  width?: number
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
-}
-
 export type SanityFileAsset = {
   _id: string
   _type: 'sanity.fileAsset'
@@ -75,6 +59,92 @@ export type SanityFileAsset = {
   path?: string
   url?: string
   source?: SanityAssetSourceData
+}
+
+export type Geopoint = {
+  _type: 'geopoint'
+  lat?: number
+  lng?: number
+  alt?: number
+}
+
+export type Startup = {
+  _id: string
+  _type: 'startup'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+  author?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'author'
+  }
+  views?: number
+  description?: string
+  category?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  pitch?: string
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
+export type Author = {
+  _id: string
+  _type: 'author'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  id?: number
+  name?: string
+  username?: string
+  email?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  bio?: string
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x?: number
+  y?: number
+  height?: number
+  width?: number
 }
 
 export type SanityImageAsset = {
@@ -100,6 +170,13 @@ export type SanityImageAsset = {
   source?: SanityAssetSourceData
 }
 
+export type SanityAssetSourceData = {
+  _type: 'sanity.assetSourceData'
+  name?: string
+  id?: string
+  url?: string
+}
+
 export type SanityImageMetadata = {
   _type: 'sanity.imageMetadata'
   location?: Geopoint
@@ -111,87 +188,33 @@ export type SanityImageMetadata = {
   isOpaque?: boolean
 }
 
-export type Geopoint = {
-  _type: 'geopoint'
-  lat?: number
-  lng?: number
-  alt?: number
-}
-
-export type SanityAssetSourceData = {
-  _type: 'sanity.assetSourceData'
-  name?: string
-  id?: string
-  url?: string
-}
-
-export type Startup = {
-  _id: string
-  _type: 'startup'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  slug?: Slug
-  author?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'author'
-  }
-  views?: number
-  description?: string
-  category?: string
-  image?: string
-  pitch?: string
-}
-
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
-}
-
-export type Author = {
-  _id: string
-  _type: 'author'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  id?: number
-  name?: string
-  username?: string
-  email?: string
-  image?: string
-  bio?: string
-}
-
 export type Markdown = string
 
 export type AllSanitySchemaTypes =
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
-  | SanityImageHotspot
-  | SanityImageCrop
   | SanityFileAsset
-  | SanityImageAsset
-  | SanityImageMetadata
   | Geopoint
-  | SanityAssetSourceData
   | Startup
   | Slug
   | Author
+  | SanityImageCrop
+  | SanityImageHotspot
+  | SanityImageAsset
+  | SanityAssetSourceData
+  | SanityImageMetadata
   | Markdown
 export declare const internalGroqTypeReferenceTo: unique symbol
 // Source: ./src/sanity/lib/queries.ts
 // Variable: STARTUPS_QUERY
-// Query: *    [_type == 'startup']    {    'slug': slug.current,    title,     description,     image,     pitch,     category,     views,     _createdAt,    author->{        id,        username,        email,        name,        image,        bio,         },    }
+// Query: *[_type == 'startup']{    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    pitch,     category,     views,     _createdAt,    author->{        id,        username,        email,        name,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,        bio,         },}
 export type STARTUPS_QUERYResult = Array<{
   slug: string | null
   title: string | null
   description: string | null
-  image: string | null
+  imageAlt: string | null
+  imageUrl: string | null
   pitch: string | null
   category: string | null
   views: number | null
@@ -201,7 +224,8 @@ export type STARTUPS_QUERYResult = Array<{
     username: string | null
     email: string | null
     name: string | null
-    image: string | null
+    imageAlt: string | null
+    imageUrl: string | null
     bio: string | null
   } | null
 }>
@@ -210,6 +234,6 @@ export type STARTUPS_QUERYResult = Array<{
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
-    "\n    *\n    [_type == 'startup']\n    {\n    'slug': slug.current,\n    title, \n    description, \n    image, \n    pitch, \n    category, \n    views, \n    _createdAt,\n    author->{\n        id,\n        username,\n        email,\n        name,\n        image,\n        bio,     \n    },\n    }\n": STARTUPS_QUERYResult
+    "\n*[_type == 'startup']{\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    pitch, \n    category, \n    views, \n    _createdAt,\n    author->{\n        id,\n        username,\n        email,\n        name,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,\n        bio,     \n    },\n}\n": STARTUPS_QUERYResult
   }
 }
