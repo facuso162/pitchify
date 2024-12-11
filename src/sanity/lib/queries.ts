@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity'
 
 export const STARTUPS_QUERY = defineQuery(`
-*[_type == 'startup']{
+*[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{
     'slug': slug.current,
     title, 
     description, 

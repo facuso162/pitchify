@@ -9,7 +9,8 @@ type HomePageProps = {
 
 async function Home({ searchParams }: HomePageProps) {
   const { query } = await searchParams
-  const startups = await getStartupsAction()
+  const startupsParams = { q: query || null }
+  const startups = await getStartupsAction(startupsParams)
 
   // Puede no haber searchParams, entonces en ese caso query = undefined
   return (
