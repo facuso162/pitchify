@@ -8,7 +8,7 @@ type SearchFormProps = {
 
 function SearchForm({ query }: SearchFormProps) {
   return (
-    <Form id='searchForm' action='' className='search-form'>
+    <Form id='searchForm' action='/' className='search-form'>
       <input
         type='text'
         name='query'
