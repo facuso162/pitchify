@@ -7,9 +7,7 @@ type HeroProps = {
 function Hero({ query }: HeroProps) {
   return (
     <section className='pink-container'>
-      <div>
-        <h5 className='tag'>Pitch, vote and grow</h5>
-      </div>
+      <h5 className='tag'>Pitch, vote and grow</h5>
       <h1 className='heading'>
         Pitch your startup,
         <br /> connect with entrepreneurs
