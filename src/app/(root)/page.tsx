@@ -1,8 +1,7 @@
 import Hero from '../components/Hero'
 import Startups from '../components/Startups'
-import { client } from '@/src/sanity/lib/client'
-import { STARTUPS_QUERY } from '@/src/sanity/lib/queries'
 import { SearchParams } from '../types/general'
+import { getStartupsAction } from '../actions/startupsActions'
 
 type HomePageProps = {
   searchParams: SearchParams
@@ -10,7 +9,7 @@ type HomePageProps = {
 
 async function Home({ searchParams }: HomePageProps) {
   const { query } = await searchParams
-  const startups = await client.fetch(STARTUPS_QUERY)
+  const startups = await getStartupsAction()
 
   // Puede no haber searchParams, entonces en ese caso query = undefined
   return (
