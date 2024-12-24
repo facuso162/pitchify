@@ -1,8 +1,12 @@
-import { getStartupDetailsAction } from '@/src/app/actions/startupsActions'
+import {
+  getStartupDetailsAction,
+  increaseStartupViewsAction,
+} from '@/src/app/actions/startupsActions'
 import { parseDate } from '@/src/app/utils/parse'
 import Image from 'next/image'
 import markdownit from 'markdown-it'
 import { notFound } from 'next/navigation'
+import { unstable_after as after } from 'next/server'
 
 const md = markdownit()
 
@@ -14,9 +18,14 @@ async function StartupDetails({ params }: { params: Params }) {
 
   if (startup === null) notFound()
 
-  const { _createdAt, title, description, pitch, author, category, imageAlt, imageUrl } = startup
+  const { _id, _createdAt, title, description, pitch, author, category, imageAlt, imageUrl } =
+    startup
 
   const parsedPitch = md.render(pitch || '')
+
+  // Se agrego el 0 luego de views ya que segun los tipos de Sanity views podria ser null
+  // pero no tendria sentido.
+  after(async () => await increaseStartupViewsAction(_id))
 
   return (
     <main>

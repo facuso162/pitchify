@@ -208,8 +208,9 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol
 // Source: ./src/sanity/lib/queries.ts
 // Variable: STARTUPS_QUERY
-// Query: *[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    category,     views,     _createdAt,    author->{        id,        name,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,      },}
+// Query: *[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{    _id,    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    category,     views,     _createdAt,    author->{        id,        name,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,      },}
 export type STARTUPS_QUERYResult = Array<{
+  _id: string
   slug: string | null
   title: string | null
   description: string | null
@@ -226,15 +227,15 @@ export type STARTUPS_QUERYResult = Array<{
   } | null
 }>
 // Variable: STARTUP_DETAILS_QUERY
-// Query: *[_type == 'startup' && slug.current == $slug ][0]{    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    category,     views,     _createdAt,    pitch,    author->{        id,        name,        username,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,      },}
+// Query: *[_type == 'startup' && slug.current == $slug ][0]{    _id,    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    category,     _createdAt,    pitch,    author->{        id,        name,        username,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,      },}
 export type STARTUP_DETAILS_QUERYResult = {
+  _id: string
   slug: string | null
   title: string | null
   description: string | null
   imageAlt: string | null
   imageUrl: string | null
   category: string | null
-  views: number | null
   _createdAt: string
   pitch: string | null
   author: {
@@ -250,7 +251,7 @@ export type STARTUP_DETAILS_QUERYResult = {
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
-    "*[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    category, \n    views, \n    _createdAt,\n    author->{\n        id,\n        name,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUPS_QUERYResult
-    "*[_type == 'startup' && slug.current == $slug ][0]{\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    category, \n    views, \n    _createdAt,\n    pitch,\n    author->{\n        id,\n        name,\n        username,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUP_DETAILS_QUERYResult
+    "*[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{\n    _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    category, \n    views, \n    _createdAt,\n    author->{\n        id,\n        name,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUPS_QUERYResult
+    "*[_type == 'startup' && slug.current == $slug ][0]{\n    _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    category, \n    _createdAt,\n    pitch,\n    author->{\n        id,\n        name,\n        username,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUP_DETAILS_QUERYResult
   }
 }

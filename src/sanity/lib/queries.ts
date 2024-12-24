@@ -2,6 +2,7 @@ import { defineQuery } from 'next-sanity'
 
 export const STARTUPS_QUERY = defineQuery(
   `*[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{
+    _id,
     'slug': slug.current,
     title, 
     description, 
@@ -21,13 +22,13 @@ export const STARTUPS_QUERY = defineQuery(
 
 export const STARTUP_DETAILS_QUERY = defineQuery(
   `*[_type == 'startup' && slug.current == $slug ][0]{
+    _id,
     'slug': slug.current,
     title, 
     description, 
     'imageAlt': image.alt, 
     'imageUrl':image.asset -> .url,
     category, 
-    views, 
     _createdAt,
     pitch,
     author->{
