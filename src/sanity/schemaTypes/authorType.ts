@@ -7,8 +7,8 @@ export const authorType = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'id',
-      type: 'number',
+      name: 'authProviderID',
+      type: 'string',
     }),
     defineField({
       name: 'name',

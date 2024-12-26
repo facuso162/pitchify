@@ -18,14 +18,12 @@ async function StartupDetails({ params }: { params: Params }) {
 
   if (startup === null) notFound()
 
-  const { _id, _createdAt, title, description, pitch, author, category, imageAlt, imageUrl } =
+  const { startupID, _createdAt, title, description, pitch, author, category, imageAlt, imageUrl } =
     startup
 
   const parsedPitch = md.render(pitch || '')
 
-  // Se agrego el 0 luego de views ya que segun los tipos de Sanity views podria ser null
-  // pero no tendria sentido.
-  after(async () => await increaseStartupViewsAction(_id))
+  after(async () => await increaseStartupViewsAction(startupID))
 
   return (
     <main>

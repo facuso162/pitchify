@@ -25,7 +25,7 @@ function StartupCard({ startup }: StartupCardProps) {
       </header>
       <div className='flex justify-between items-center'>
         <div>
-          <Link href={`/user/${author?.id}`}>
+          <Link href={`/user/${author?.authorID}`}>
             <h4 className='text-sm font-medium line-clamp-1'>{`${author?.name}`}</h4>
           </Link>
           <Link href={`/startup/${slug}`}>
@@ -33,7 +33,7 @@ function StartupCard({ startup }: StartupCardProps) {
           </Link>
         </div>
         <div className='w-10 h-10 relative'>
-          <Link href={`/user/${author?.id}`}>
+          <Link href={`/user/${author?.authorID}`}>
             <Image
               src={author?.imageUrl || './default-profile-photo.png'}
               fill

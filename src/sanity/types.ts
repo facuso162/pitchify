@@ -112,7 +112,7 @@ export type Author = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  id?: number
+  authProviderID?: string
   name?: string
   username?: string
   email?: string
@@ -208,9 +208,9 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol
 // Source: ./src/sanity/lib/queries.ts
 // Variable: STARTUPS_QUERY
-// Query: *[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{    _id,    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    category,     views,     _createdAt,    author->{        id,        name,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,      },}
+// Query: *[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{    'startupID': _id,    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    category,     views,     _createdAt,    author->{        'authorID': _id,        authProviderID,        name,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,      },}
 export type STARTUPS_QUERYResult = Array<{
-  _id: string
+  startupID: string
   slug: string | null
   title: string | null
   description: string | null
@@ -220,16 +220,17 @@ export type STARTUPS_QUERYResult = Array<{
   views: number | null
   _createdAt: string
   author: {
-    id: number | null
+    authorID: string
+    authProviderID: string | null
     name: string | null
     imageAlt: string | null
     imageUrl: string | null
   } | null
 }>
 // Variable: STARTUP_DETAILS_QUERY
-// Query: *[_type == 'startup' && slug.current == $slug ][0]{    _id,    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    category,     _createdAt,    pitch,    author->{        id,        name,        username,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,      },}
+// Query: *[_type == 'startup' && slug.current == $slug ][0]{    'startupID': _id,    'slug': slug.current,    title,     description,     'imageAlt': image.alt,     'imageUrl':image.asset -> .url,    category,     _createdAt,    pitch,    author->{        'authorID': _id,        authProviderID,        name,        username,        'imageAlt': image.alt,        'imageUrl': image.asset -> .url,      },}
 export type STARTUP_DETAILS_QUERYResult = {
-  _id: string
+  startupID: string
   slug: string | null
   title: string | null
   description: string | null
@@ -239,19 +240,31 @@ export type STARTUP_DETAILS_QUERYResult = {
   _createdAt: string
   pitch: string | null
   author: {
-    id: number | null
+    authorID: string
+    authProviderID: string | null
     name: string | null
     username: string | null
     imageAlt: string | null
     imageUrl: string | null
   } | null
 } | null
+// Variable: AUTHOR_BY_AUTHPROVIDER_ID_QUERY
+// Query: *[_type == "author" && authProviderID == $authProviderID][0]{      'authorID': _id,      authProviderID,      name,      username,      'imageAlt': image.alt,      'imageUrl': image.asset -> .url,    }
+export type AUTHOR_BY_AUTHPROVIDER_ID_QUERYResult = {
+  authorID: string
+  authProviderID: string | null
+  name: string | null
+  username: string | null
+  imageAlt: string | null
+  imageUrl: string | null
+} | null
 
 // Query TypeMap
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
-    "*[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{\n    _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    category, \n    views, \n    _createdAt,\n    author->{\n        id,\n        name,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUPS_QUERYResult
-    "*[_type == 'startup' && slug.current == $slug ][0]{\n    _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    category, \n    _createdAt,\n    pitch,\n    author->{\n        id,\n        name,\n        username,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUP_DETAILS_QUERYResult
+    "*[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{\n    'startupID': _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    category, \n    views, \n    _createdAt,\n    author->{\n        'authorID': _id,\n        authProviderID,\n        name,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUPS_QUERYResult
+    "*[_type == 'startup' && slug.current == $slug ][0]{\n    'startupID': _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageAlt': image.alt, \n    'imageUrl':image.asset -> .url,\n    category, \n    _createdAt,\n    pitch,\n    author->{\n        'authorID': _id,\n        authProviderID,\n        name,\n        username,\n        'imageAlt': image.alt,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUP_DETAILS_QUERYResult
+    "*[_type == \"author\" && authProviderID == $authProviderID][0]{\n      'authorID': _id,\n      authProviderID,\n      name,\n      username,\n      'imageAlt': image.alt,\n      'imageUrl': image.asset -> .url,  \n  }": AUTHOR_BY_AUTHPROVIDER_ID_QUERYResult
   }
 }

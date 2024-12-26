@@ -2,7 +2,7 @@ import { defineQuery } from 'next-sanity'
 
 export const STARTUPS_QUERY = defineQuery(
   `*[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{
-    _id,
+    'startupID': _id,
     'slug': slug.current,
     title, 
     description, 
@@ -12,7 +12,8 @@ export const STARTUPS_QUERY = defineQuery(
     views, 
     _createdAt,
     author->{
-        id,
+        'authorID': _id,
+        authProviderID,
         name,
         'imageAlt': image.alt,
         'imageUrl': image.asset -> .url,  
@@ -22,7 +23,7 @@ export const STARTUPS_QUERY = defineQuery(
 
 export const STARTUP_DETAILS_QUERY = defineQuery(
   `*[_type == 'startup' && slug.current == $slug ][0]{
-    _id,
+    'startupID': _id,
     'slug': slug.current,
     title, 
     description, 
@@ -32,11 +33,23 @@ export const STARTUP_DETAILS_QUERY = defineQuery(
     _createdAt,
     pitch,
     author->{
-        id,
+        'authorID': _id,
+        authProviderID,
         name,
         username,
         'imageAlt': image.alt,
         'imageUrl': image.asset -> .url,  
     },
 }`
+)
+
+export const AUTHOR_BY_AUTHPROVIDER_ID_QUERY = defineQuery(
+  `*[_type == "author" && authProviderID == $authProviderID][0]{
+      'authorID': _id,
+      authProviderID,
+      name,
+      username,
+      'imageAlt': image.alt,
+      'imageUrl': image.asset -> .url,  
+  }`
 )
