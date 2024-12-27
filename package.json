@@ -29,8 +29,7 @@
     "sanity": "3.66.1",
     "sanity-plugin-markdown": "5.0.0",
     "server-only": "0.0.1",
-    "styled-components": "6.1.13",
-    "tailwindcss-animate": "1.0.7"
+    "styled-components": "6.1.13"
   },
   "devDependencies": {
     "@types/markdown-it": "14.1.2",

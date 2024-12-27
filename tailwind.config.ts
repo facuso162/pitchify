@@ -14,10 +14,10 @@ const config: Config = {
     extend: {
       screens: {
         xs: '475px',
-        // Con este breakpoint me evito tener que andar 
-        // poniendo miles de breakpoints para cada elemento 
-        // individual de las cards. Al hacerlas de tamaño 
-        // fijo, cuando no entran, se saca una columna y 
+        // Con este breakpoint me evito tener que andar
+        // poniendo miles de breakpoints para cada elemento
+        // individual de las cards. Al hacerlas de tamaño
+        // fijo, cuando no entran, se saca una columna y
         // listo.
         'large-grid': '936px',
       },
@@ -58,7 +58,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/typography')],
 }
 
 export default config
