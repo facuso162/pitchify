@@ -1,12 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import pitchifyLogo from '@/public/pitchify-logo.svg'
-import { workSans } from './fonts/fonts'
 
 function NotFound() {
   return (
-    <main
-      className={`text-black flex flex-col h-dvh justify-center items-center px-4 ${workSans.variable}`}>
+    <main className={`text-black flex flex-col h-dvh justify-center items-center px-4`}>
       <div className='flex flex-col gap-4 items-start'>
         <Link href='/'>
           <div className='h-20 w-36 relative '>

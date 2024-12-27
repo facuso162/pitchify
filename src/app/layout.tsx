@@ -15,7 +15,7 @@ function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${workSans.variable} antialiased bg-white`}>{children}</body>
+      <body className={`${workSans.variable} font-work-sans antialiased bg-white`}>{children}</body>
     </html>
   )
 }
