@@ -2,7 +2,7 @@ import {
   getStartupDetailsAction,
   increaseStartupViewsAction,
 } from '@/src/app/actions/startupsActions'
-import { parseDate } from '@/src/app/utils/parse'
+import { formatDate } from '@/src/app/utils/format'
 import Image from 'next/image'
 import markdownit from 'markdown-it'
 import { notFound } from 'next/navigation'
@@ -28,7 +28,7 @@ async function StartupDetails({ params }: { params: Params }) {
   return (
     <main>
       <section className='pink-container'>
-        <h5 className='tag'>{parseDate(_createdAt)}</h5>
+        <h5 className='tag'>{formatDate(_createdAt)}</h5>
         <h1 className='heading'>{title}</h1>
         <p className='sub-heading'>{description}</p>
       </section>

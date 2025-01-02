@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Eye } from 'lucide-react'
 import Link from 'next/link'
 import { STARTUPS_QUERYResult } from '@/src/sanity/types'
-import { parseDate } from '../utils/parse'
+import { formatDate } from '../utils/format'
 
 type StartupCardProps = {
   startup: STARTUPS_QUERYResult[number]
@@ -16,7 +16,7 @@ function StartupCard({ startup }: StartupCardProps) {
     <article className='group bg-white w-full border-4 border-black rounded-3xl text-black py-6 px-5 shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100 max-w-72 flex flex-col gap-2'>
       <header className='flex justify-between'>
         <div className='bg-primary-100 px-4 py-2 rounded-full transition-all duration-500 group-hover:bg-white'>
-          <span className='font-medium'>{parseDate(_createdAt)}</span>
+          <span className='font-medium'>{formatDate(_createdAt)}</span>
         </div>
         <div className='flex items-center gap-1'>
           <Eye size={20} className='text-primary' />
