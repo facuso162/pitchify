@@ -28,13 +28,6 @@ export const authorType = defineType({
       options: {
         hotspot: true,
       },
-      fields: [
-        {
-          name: 'alt',
-          title: 'Alt',
-          type: 'string',
-        },
-      ],
     }),
     defineField({
       name: 'bio',

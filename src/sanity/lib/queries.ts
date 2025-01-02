@@ -6,7 +6,6 @@ export const STARTUPS_QUERY = defineQuery(
     'slug': slug.current,
     title, 
     description, 
-    'imageAlt': image.alt, 
     'imageUrl':image.asset -> .url,
     category, 
     views, 
@@ -15,7 +14,6 @@ export const STARTUPS_QUERY = defineQuery(
         'authorID': _id,
         authProviderID,
         name,
-        'imageAlt': image.alt,
         'imageUrl': image.asset -> .url,  
     },
 }`
@@ -27,7 +25,6 @@ export const STARTUP_DETAILS_QUERY = defineQuery(
     'slug': slug.current,
     title, 
     description, 
-    'imageAlt': image.alt, 
     'imageUrl':image.asset -> .url,
     category, 
     _createdAt,
@@ -37,7 +34,6 @@ export const STARTUP_DETAILS_QUERY = defineQuery(
         authProviderID,
         name,
         username,
-        'imageAlt': image.alt,
         'imageUrl': image.asset -> .url,  
     },
 }`
@@ -49,7 +45,6 @@ export const AUTHOR_BY_AUTHPROVIDER_ID_QUERY = defineQuery(
       authProviderID,
       name,
       username,
-      'imageAlt': image.alt,
       'imageUrl': image.asset -> .url,  
   }`
 )
