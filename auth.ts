@@ -8,23 +8,44 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
   callbacks: {
     async signIn({ profile }) {
+      if (profile === undefined) throw new Error('Authentication error') // TODO - Esto podria enviar a una pagina de error
+
+      if (!profile.name || !profile.sub || !profile.email) throw new Error('Invalid profile data') // TODO - Esto podria enviar a una pagina de error
+
       const author = await client.fetch(AUTHOR_BY_AUTHPROVIDER_ID_QUERY, {
-        authProviderID: profile?.sub,
+        authProviderID: profile.sub,
       })
 
-      // TODO - Falta poner la imagen, tanto la de google, como una por defecto
-      if (author === null) {
-        const newAuthor = {
-          _type: 'author',
-          authProviderID: profile?.sub,
-          name: profile?.name,
-          username: profile?.email?.split('@')[0],
-          email: profile?.email,
-          bio: '',
-        }
-        await writeClient.create(newAuthor)
+      if (author) return true
+
+      // TODO - Falta poner la imagen por defecto
+
+      const authorImageFetchResponse = await fetch(profile.picture)
+      if (!authorImageFetchResponse.ok) throw new Error('Getting image error')
+
+      const authorImage = await authorImageFetchResponse.blob()
+
+      const asset = await writeClient.assets.upload('image', authorImage, {
+        filename: profile.name,
+      })
+
+      const newAuthor = {
+        _type: 'author',
+        authProviderID: profile.sub,
+        name: profile.name,
+        username: profile.email.split('@')[0],
+        email: profile.email,
+        bio: '',
+        image: {
+          _type: 'image',
+          asset: {
+            _type: 'reference',
+            _ref: asset._id,
+          },
+        },
       }
 
+      await writeClient.create(newAuthor)
       return true
     },
 
