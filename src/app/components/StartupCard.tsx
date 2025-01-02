@@ -3,17 +3,43 @@ import { Eye } from 'lucide-react'
 import Link from 'next/link'
 import { STARTUPS_QUERYResult } from '@/src/sanity/types'
 import { formatDate } from '../utils/format'
+import { formatStartupImageAltText, formatAuthorImageAltText } from '../utils/format'
 
 type StartupCardProps = {
   startup: STARTUPS_QUERYResult[number]
 }
 
 function StartupCard({ startup }: StartupCardProps) {
-  const { _createdAt, author, category, description, slug, title, views, imageUrl, imageAlt } =
-    startup
+  const {
+    _createdAt,
+    author,
+    category,
+    description,
+    slug,
+    title,
+    views,
+    imageUrl: startupImageURL,
+  } = startup
+
+  // TODO - Se podria reenviar a una pagina de error cuando se encuentra una propiedad nula
+  // ya que es algo que no deberia pasar
+  if (
+    title === null ||
+    description === null ||
+    author === null ||
+    category === null ||
+    startupImageURL === null ||
+    views === null
+  )
+    return
+
+  const { name, imageUrl: authorImageURL, authorID } = author
+
+  if (name === null || authorImageURL === null || authorImageURL === null || authorID === null)
+    return
 
   return (
-    <article className='group bg-white w-full border-4 border-black rounded-3xl text-black py-6 px-5 shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100 max-w-72 flex flex-col gap-2'>
+    <article className='group bg-white border-4 border-black rounded-3xl text-black py-6 px-5 shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100 w-72 flex flex-col gap-2'>
       <header className='flex justify-between'>
         <div className='bg-primary-100 px-4 py-2 rounded-full transition-all duration-500 group-hover:bg-white'>
           <span className='font-medium'>{formatDate(_createdAt)}</span>
@@ -35,20 +61,20 @@ function StartupCard({ startup }: StartupCardProps) {
         <div className='w-10 h-10 relative'>
           <Link href={`/user/${author?.authorID}`}>
             <Image
-              src={author?.imageUrl || './default-profile-photo.png'}
+              src={authorImageURL}
               fill
-              alt={author?.imageAlt || 'Profile photo'}
+              alt={formatAuthorImageAltText(name)}
               className='rounded-full'
             />
           </Link>
         </div>
       </div>
-      <p className='line-clamp-2 text-black-100 font-normal'>{description}</p>
+      <p className='line-clamp-2 text-black-100 font-normal h-12'>{description}</p>
       <div className='w-full h-40 relative'>
         <Link href={`/startup/${slug}`}>
           <Image
-            src={imageUrl || './default-image.png'}
-            alt={imageAlt || 'Startup post image'}
+            src={startupImageURL}
+            alt={formatStartupImageAltText(title)}
             fill
             className='rounded-xl'
           />

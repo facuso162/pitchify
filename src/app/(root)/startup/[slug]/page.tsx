@@ -7,6 +7,7 @@ import Image from 'next/image'
 import markdownit from 'markdown-it'
 import { notFound } from 'next/navigation'
 import { unstable_after as after } from 'next/server'
+import { formatStartupImageAltText, formatAuthorImageAltText } from '@/src/app/utils/format'
 
 const md = markdownit()
 
@@ -18,10 +19,34 @@ async function StartupDetails({ params }: { params: Params }) {
 
   if (startup === null) notFound()
 
-  const { startupID, _createdAt, title, description, pitch, author, category, imageAlt, imageUrl } =
-    startup
+  const {
+    startupID,
+    _createdAt,
+    title,
+    description,
+    pitch,
+    author,
+    category,
+    imageUrl: startupImageURL,
+  } = startup
 
-  const parsedPitch = md.render(pitch || '')
+  // TODO - Se podria reenviar a una pagina de error cuando se encuentra una propiedad nula
+  // ya que es algo que no deberia pasar
+  if (
+    title === null ||
+    description === null ||
+    author === null ||
+    category === null ||
+    startupImageURL === null ||
+    pitch === null
+  )
+    return
+
+  const { name, username, imageUrl: authorImageURL } = author
+
+  if (name === null || authorImageURL === null || authorImageURL === null) return
+
+  const parsedPitch = md.render(pitch)
 
   after(async () => await increaseStartupViewsAction(startupID))
 
@@ -35,8 +60,8 @@ async function StartupDetails({ params }: { params: Params }) {
       <section className='flex flex-col items-center text-black p-4 gap-4'>
         <div className='min-w-72 min-h-40 max-w-5xl w-full aspect-[16/9] relative md:my-4'>
           <Image
-            src={imageUrl || '/default-image.png'}
-            alt={imageAlt || 'Startup post image'}
+            src={startupImageURL}
+            alt={formatStartupImageAltText(title)}
             fill
             className='rounded-xl'
           />
@@ -45,15 +70,15 @@ async function StartupDetails({ params }: { params: Params }) {
           <div className='flex gap-2'>
             <div className='w-12 h-12 relative'>
               <Image
-                src={author?.imageUrl || '/default-profile-photo.png'}
-                alt={author?.imageAlt || 'Profile photo'}
+                src={authorImageURL}
+                alt={formatAuthorImageAltText(name)}
                 fill
                 className='rounded-full'
               />
             </div>
             <div>
-              <h3 className='font-bold'>{author?.name}</h3>
-              <span className='font-medium'>@{author?.username}</span>
+              <h3 className='font-bold'>{name}</h3>
+              <span className='font-medium'>@{username}</span>
             </div>
           </div>
           <p className='bg-primary-100 px-2 py-1 font-medium rounded-full w-fit'>{category}</p>
