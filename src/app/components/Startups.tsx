@@ -17,9 +17,7 @@ function Startups({ query, startups }: StartupsProps) {
       {startups.length > 0 ? (
         <ul className='card-grid justify-center py-6 px-4'>
           {startups.map(startup => (
-            <li key={startup.slug} className='flex justify-center w-fit'>
-              <StartupCard startup={startup} />
-            </li>
+            <StartupCard startup={startup} key={startup.slug} />
           ))}
         </ul>
       ) : (
