@@ -15,8 +15,8 @@ async function Home({ searchParams }: HomePageProps) {
   // Puede no haber searchParams, entonces en ese caso query = undefined
   return (
     <main>
-      <Hero query={query || ''} />
-      <Startups query={query || ''} startups={startups} />
+      <Hero query={query} />
+      <Startups query={query} startups={startups} />
     </main>
   )
 }

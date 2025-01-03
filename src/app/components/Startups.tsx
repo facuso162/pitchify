@@ -3,7 +3,7 @@ import StartupCard from './StartupCard'
 import { Frown } from 'lucide-react'
 
 type StartupsProps = {
-  query: string
+  query: string | undefined
   startups: STARTUPS_QUERYResult
 }
 
@@ -11,7 +11,7 @@ function Startups({ query, startups }: StartupsProps) {
   return (
     <section className='py-6'>
       <h2 className='text-black font-semibold text-lg px-4 md:px-16'>
-        {query !== '' ? `Search results for "${query}"` : `All Startups`}
+        {query ? `Search results for "${query}"` : `All Startups`}
       </h2>
 
       {startups.length > 0 ? (

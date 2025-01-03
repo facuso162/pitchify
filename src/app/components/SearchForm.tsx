@@ -3,7 +3,7 @@ import SearchFormResetBtn from './SearchFormResetBtn'
 import { SearchIcon } from 'lucide-react'
 
 type SearchFormProps = {
-  query: string
+  query: string | undefined
 }
 
 function SearchForm({ query }: SearchFormProps) {
@@ -17,7 +17,7 @@ function SearchForm({ query }: SearchFormProps) {
         defaultValue={query}
       />
       <div className='flex gap-2'>
-        {query !== '' && <SearchFormResetBtn />}
+        {query && <SearchFormResetBtn />}
         <button className='search-form-btn' type='submit'>
           <SearchIcon size={20} />
         </button>

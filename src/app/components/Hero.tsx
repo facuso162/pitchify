@@ -1,7 +1,7 @@
 import SearchForm from './SearchForm'
 
 type HeroProps = {
-  query: string
+  query: string | undefined
 }
 
 function Hero({ query }: HeroProps) {
