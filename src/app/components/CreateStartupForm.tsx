@@ -6,6 +6,9 @@ import MDEditor from '@uiw/react-md-editor'
 import { startupSchema } from '@/src/validation'
 import { createStartupAction } from '../actions/startupsActions'
 import ImageUpload from './ImageUpload'
+import { z } from 'zod'
+import { validateImageFormat } from '../utils/validation'
+import { useRouter } from 'next/navigation'
 
 type CreateStartupFormErrors = {
   title?: string
@@ -13,19 +16,15 @@ type CreateStartupFormErrors = {
   category?: string
   pitch?: string
   image?: string
-}
-
-const validateImageFormat = (image: File) => {
-  const imageMimeTypes = ['image/jpeg', 'image/png', 'image/webp']
-
-  return imageMimeTypes.includes(image.type)
+  unexpected?: 'Unexpected Error'
 }
 
 function CreateStartupForm() {
   const [pitch, setPitch] = useState<string>('')
   const [image, setImage] = useState<File | null>(null)
+  const router = useRouter()
 
-  const handleFormSubmit = async (prevErrors: CreateStartupFormErrors, formData: FormData) => {
+  const handleFormSubmit = async (_: CreateStartupFormErrors, formData: FormData) => {
     const formValues = {
       title: formData.get('title'),
       description: formData.get('description'),
@@ -36,18 +35,35 @@ function CreateStartupForm() {
     try {
       const validatedFormValues = await startupSchema.parseAsync(formValues)
 
-      if (image === null) throw new Error('Please upload an image')
+      if (image === null) throw new Error('Please upload an image', { cause: 'image' })
 
       if (!validateImageFormat(image))
-        throw new Error('Invalid image format (only .png, .jpg or .webp accepted)')
+        throw new Error('Invalid image format (only .png, .jpg or .webp accepted)', {
+          cause: 'image',
+        })
 
       const createdStartup = await createStartupAction({ ...validatedFormValues, image })
-      console.log(createdStartup)
+
+      router.push(`/startup/${createdStartup.slug.current}`)
+
       return {}
     } catch (error) {
-      console.log(error)
-      // poner aca los errores
-      return {}
+      const errors: CreateStartupFormErrors = {}
+
+      if (error instanceof z.ZodError) {
+        const zodErrors = error.flatten().fieldErrors
+        for (const error in zodErrors) {
+          errors[error as 'title' | 'description' | 'category' | 'pitch'] = zodErrors[error]
+            ? zodErrors[error][0]
+            : 'Unexpected error'
+        }
+      } else if (error instanceof Error && error.cause === 'image') {
+        errors[error.cause] = error.message
+      } else {
+        errors.unexpected = 'Unexpected Error'
+      }
+
+      return errors
     }
   }
 
@@ -71,6 +87,9 @@ function CreateStartupForm() {
           placeholder='The name of your startup'
           required
         />
+        {errors.title && (
+          <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.title}</p>
+        )}
       </div>
       <div className='flex flex-col gap-2'>
         <label htmlFor='description' className='font-bold uppercase tracking-wide'>
@@ -84,6 +103,9 @@ function CreateStartupForm() {
           required
           maxLength={300}
         />
+        {errors.description && (
+          <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.description}</p>
+        )}
       </div>
       <div className='flex flex-col gap-2'>
         <label htmlFor='category' className='font-bold uppercase tracking-wide'>
@@ -97,10 +119,14 @@ function CreateStartupForm() {
           placeholder='Choose a category (e.g., Tech, Health, etc.)'
           required
         />
+        {errors.category && (
+          <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.category}</p>
+        )}
       </div>
-      <div>
-        <ImageUpload onChange={onImageChange} image={image} />
-      </div>
+      <ImageUpload onChange={onImageChange} image={image} />
+      {errors.image && (
+        <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.image}</p>
+      )}
       <div data-color-mode='light' className='flex flex-col gap-2'>
         <label htmlFor='pitch' className='font-bold uppercase tracking-wide'>
           Pitch
@@ -116,6 +142,9 @@ function CreateStartupForm() {
           textareaProps={{ placeholder: 'Briefly describe your idea and what problem it solves' }}
           previewOptions={{ disallowedElements: ['style'] }}
         />
+        {errors.pitch && (
+          <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.pitch}</p>
+        )}
       </div>
       <button
         type='submit'
