@@ -34,9 +34,7 @@ function CreateStartupForm() {
     try {
       const validatedFormValues = await startupSchema.parseAsync(formValues)
 
-      if (image === null) throw new Error('Please upload an image', { cause: 'image' })
-
-      if (!validateImageFormat(image))
+      if (image !== null && !validateImageFormat(image))
         throw new Error('Invalid image format (only .png, .jpg or .webp accepted)', {
           cause: 'image',
         })

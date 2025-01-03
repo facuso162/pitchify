@@ -60,7 +60,7 @@ function ImageUpload({ onChange, image }: ImageUploadProps) {
           onClick={handleClickRedirect}
           className='relative w-full aspect-[16/9] border-2 border-black rounded-3xl overflow-hidden cursor-pointer'>
           <Image
-            src={imagePreviewURL || '/default-image.png'}
+            src={imagePreviewURL || '/default-startup-image.png'}
             alt='Startup image preview'
             fill
             className='object-cover'

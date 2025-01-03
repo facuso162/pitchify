@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import pitchifyLogo from '@/public/pitchify-logo.svg'
-import defaultProfilePhoto from '@/public/default-profile-photo.png'
 import Link from 'next/link'
 import { auth } from '@/auth'
 import { singInAction, singOutAction } from '@/src/app/actions/authActions'
@@ -27,7 +26,11 @@ async function Navbar() {
             <Link href={`/user/${session.user?.id}`}>
               <div className='w-9 h-9 rounded-full relative'>
                 <Image
-                  src={session.user?.image || defaultProfilePhoto}
+                  src={
+                    session.user && session.user.image
+                      ? session.user.image
+                      : '/default-author-photo.png'
+                  }
                   style={{ borderRadius: '50%' }}
                   fill
                   alt='Foto de perfil'

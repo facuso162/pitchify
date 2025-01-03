@@ -29,15 +29,13 @@ function StartupCard({ startup }: StartupCardProps) {
     description === null ||
     author === null ||
     category === null ||
-    startupImageURL === null ||
     views === null
   )
     return
 
   const { name, imageUrl: authorImageURL, authorID } = author
 
-  if (name === null || authorImageURL === null || authorImageURL === null || authorID === null)
-    return
+  if (name === null || authorID === null) return
 
   return (
     <li>
@@ -63,7 +61,7 @@ function StartupCard({ startup }: StartupCardProps) {
           <div className='w-10 h-10 relative'>
             <Link href={`/user/${author?.authorID}`}>
               <Image
-                src={authorImageURL}
+                src={authorImageURL || '/default-author-image.jpg'}
                 fill
                 alt={formatAuthorImageAltText(name)}
                 className='rounded-full'
@@ -75,7 +73,7 @@ function StartupCard({ startup }: StartupCardProps) {
         <div className='w-full h-40 relative'>
           <Link href={`/startup/${slug}`}>
             <Image
-              src={startupImageURL}
+              src={startupImageURL || '/default-startup-image.png'}
               alt={formatStartupImageAltText(title)}
               fill
               className='rounded-xl'

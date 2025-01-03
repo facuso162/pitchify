@@ -35,7 +35,6 @@ async function StartupDetails({ params }: { params: Params }) {
     description === null ||
     author === null ||
     category === null ||
-    startupImageURL === null ||
     pitch === null
   ) {
     throw new Error('Getting null data for the startup')
@@ -43,7 +42,7 @@ async function StartupDetails({ params }: { params: Params }) {
 
   const { name, username, imageUrl: authorImageURL } = author
 
-  if (name === null || authorImageURL === null || authorImageURL === null) {
+  if (name === null || username === null) {
     throw new Error('Getting null data for the author')
   }
 
@@ -61,7 +60,7 @@ async function StartupDetails({ params }: { params: Params }) {
       <section className='flex flex-col items-center text-black p-4 gap-4'>
         <div className='min-w-72 min-h-40 max-w-5xl w-full aspect-[16/9] relative md:my-4'>
           <Image
-            src={startupImageURL}
+            src={startupImageURL || '/default-startup-image.png'}
             alt={formatStartupImageAltText(title)}
             fill
             className='rounded-xl'
@@ -71,7 +70,7 @@ async function StartupDetails({ params }: { params: Params }) {
           <div className='flex gap-2'>
             <div className='w-12 h-12 relative'>
               <Image
-                src={authorImageURL}
+                src={authorImageURL || '/default-author-image.jpg'}
                 alt={formatAuthorImageAltText(name)}
                 fill
                 className='rounded-full'

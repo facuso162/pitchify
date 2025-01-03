@@ -3,6 +3,7 @@ import Google from 'next-auth/providers/google'
 import { client } from '@/src/sanity/lib/client'
 import { writeClient } from './src/sanity/lib/write-client'
 import { AUTHOR_BY_AUTHPROVIDER_ID_QUERY } from './src/sanity/lib/queries'
+import { SanityAssetDocument } from 'next-sanity'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
@@ -18,16 +19,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (author) return true
 
-      // TODO - Falta poner la imagen por defecto
+      let asset: SanityAssetDocument | null = null
+      if (profile.picture as string) {
+        const authorImageFetchResponse = await fetch(profile.picture)
 
-      const authorImageFetchResponse = await fetch(profile.picture)
-      if (!authorImageFetchResponse.ok) throw new Error('Getting image error')
+        if (authorImageFetchResponse.ok) {
+          const authorImage = await authorImageFetchResponse.blob()
 
-      const authorImage = await authorImageFetchResponse.blob()
-
-      const asset = await writeClient.assets.upload('image', authorImage, {
-        filename: profile.name,
-      })
+          asset = await writeClient.assets.upload('image', authorImage, {
+            filename: profile.name,
+          })
+        }
+      }
 
       const newAuthor = {
         _type: 'author',
@@ -36,13 +39,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         username: profile.email.split('@')[0],
         email: profile.email,
         bio: '',
-        image: {
-          _type: 'image',
-          asset: {
-            _type: 'reference',
-            _ref: asset._id,
-          },
-        },
+        image: asset
+          ? {
+              _type: 'image',
+              asset: {
+                _type: 'reference',
+                _ref: asset._id,
+              },
+            }
+          : null,
       }
 
       await writeClient.create(newAuthor)

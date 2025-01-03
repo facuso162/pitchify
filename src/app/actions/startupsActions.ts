@@ -5,6 +5,7 @@ import { client } from '@/src/sanity/lib/client'
 import { writeClient } from '@/src/sanity/lib/write-client'
 import slugify from 'slugify'
 import { auth } from '@/auth'
+import { SanityAssetDocument } from 'next-sanity'
 
 export const getStartupsAction = async (startupsParams: { q: string | null }) => {
   const startups = await client.fetch(STARTUPS_QUERY, startupsParams)
@@ -25,7 +26,7 @@ type StartupCreationData = {
   description: string
   category: string
   pitch: string
-  image: File
+  image: File | null
 }
 
 export const createStartupAction = async (startupCreationData: StartupCreationData) => {
@@ -35,9 +36,12 @@ export const createStartupAction = async (startupCreationData: StartupCreationDa
 
   if (session === null || session.authorID === undefined) throw new Error('User not authenticated')
 
-  const asset = await writeClient.assets.upload('image', image, {
-    filename: image.name,
-  })
+  let asset: SanityAssetDocument | null = null
+  if (image !== null) {
+    asset = await writeClient.assets.upload('image', image, {
+      filename: image.name,
+    })
+  }
 
   const newStartup = {
     _type: 'startup',
@@ -48,19 +52,21 @@ export const createStartupAction = async (startupCreationData: StartupCreationDa
     views: 0,
     slug: {
       _type: 'slug',
-      current: slugify(title, { lower: true, remove: /[*+~.()'"!:@]/g }),
+      current: slugify(title, { lower: true, remove: /[*+~.()'"!:@]/g, strict: true }),
     },
     author: {
       _type: 'reference',
       _ref: session.authorID,
     },
-    image: {
-      _type: 'image',
-      asset: {
-        _type: 'reference',
-        _ref: asset._id,
-      },
-    },
+    image: asset
+      ? {
+          _type: 'image',
+          asset: {
+            _type: 'reference',
+            _ref: asset._id,
+          },
+        }
+      : null,
   }
 
   const createdStartup = await writeClient.create(newStartup)
