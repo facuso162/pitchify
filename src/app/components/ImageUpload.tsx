@@ -52,7 +52,6 @@ function ImageUpload({ onChange, image }: ImageUploadProps) {
             name='image'
             id='image'
             onChange={handleImageChange}
-            required
             className='hidden'
             ref={fileInputRef}
           />
