@@ -16,7 +16,6 @@ type CreateStartupFormErrors = {
   category?: string
   pitch?: string
   image?: string
-  unexpected?: 'Unexpected Error'
 }
 
 function CreateStartupForm() {
@@ -60,7 +59,7 @@ function CreateStartupForm() {
       } else if (error instanceof Error && error.cause === 'image') {
         errors[error.cause] = error.message
       } else {
-        errors.unexpected = 'Unexpected Error'
+        throw error
       }
 
       return errors

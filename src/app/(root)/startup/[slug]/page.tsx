@@ -30,8 +30,6 @@ async function StartupDetails({ params }: { params: Params }) {
     imageUrl: startupImageURL,
   } = startup
 
-  // TODO - Se podria reenviar a una pagina de error cuando se encuentra una propiedad nula
-  // ya que es algo que no deberia pasar
   if (
     title === null ||
     description === null ||
@@ -39,12 +37,15 @@ async function StartupDetails({ params }: { params: Params }) {
     category === null ||
     startupImageURL === null ||
     pitch === null
-  )
-    return
+  ) {
+    throw new Error('Getting null data for the startup')
+  }
 
   const { name, username, imageUrl: authorImageURL } = author
 
-  if (name === null || authorImageURL === null || authorImageURL === null) return
+  if (name === null || authorImageURL === null || authorImageURL === null) {
+    throw new Error('Getting null data for the author')
+  }
 
   const parsedPitch = md.render(pitch)
 

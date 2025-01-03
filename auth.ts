@@ -8,9 +8,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
   callbacks: {
     async signIn({ profile }) {
-      if (profile === undefined) throw new Error('Authentication error') // TODO - Esto podria enviar a una pagina de error
+      if (profile === undefined) throw new Error('Authentication error')
 
-      if (!profile.name || !profile.sub || !profile.email) throw new Error('Invalid profile data') // TODO - Esto podria enviar a una pagina de error
+      if (!profile.name || !profile.sub || !profile.email) throw new Error('Invalid profile data')
 
       const author = await client.fetch(AUTHOR_BY_AUTHPROVIDER_ID_QUERY, {
         authProviderID: profile.sub,
