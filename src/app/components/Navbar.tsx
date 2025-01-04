@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import pitchifyLogo from '@/public/pitchify-logo.svg'
 import Link from 'next/link'
 import { auth } from '@/auth'
 import { singInAction, singOutAction } from '@/src/app/actions/authActions'
@@ -12,7 +11,7 @@ async function Navbar() {
       <nav className='flex justify-between items-center w-full'>
         <Link href='/'>
           <div className='h-9 w-20 relative md:h-12 md:w-24'>
-            <Image src={pitchifyLogo} className='-top-1' alt='Logo de pitchify' fill />
+            <Image src='/pitchify-logo.svg' className='-top-1' alt='Logo de pitchify' fill />
           </div>
         </Link>
         {session ? (
