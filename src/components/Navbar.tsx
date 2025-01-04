@@ -14,7 +14,7 @@ async function Navbar() {
             <Image src='/pitchify-logo.svg' className='-top-1' alt='Logo de pitchify' fill />
           </div>
         </Link>
-        {session ? (
+        {session && session.authorID ? (
           <div className='flex items-center gap-4'>
             <Link href={'/startup/create'} className='text-black font-medium md:text-lg'>
               Create
@@ -22,7 +22,7 @@ async function Navbar() {
             <button className='text-primary font-medium md:text-lg' onClick={singOutAction}>
               Logout
             </button>
-            <Link href={`/user/${session.user?.id}`}>
+            <Link href={`/author/${session.authorID}`}>
               <div className='w-9 h-9 rounded-full relative'>
                 <Image
                   src={

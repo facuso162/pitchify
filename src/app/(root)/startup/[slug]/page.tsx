@@ -5,6 +5,7 @@ import markdownit from 'markdown-it'
 import { notFound } from 'next/navigation'
 import { unstable_after as after } from 'next/server'
 import { formatStartupImageAltText, formatAuthorImageAltText } from '@/src/utils/format'
+import Link from 'next/link'
 
 const md = markdownit()
 
@@ -37,7 +38,7 @@ async function StartupDetails({ params }: { params: Params }) {
     throw new Error('Getting null data for the startup')
   }
 
-  const { name, username, imageUrl: authorImageURL } = author
+  const { name, username, imageUrl: authorImageURL, authorID } = author
 
   if (name === null || username === null) {
     throw new Error('Getting null data for the author')
@@ -65,16 +66,20 @@ async function StartupDetails({ params }: { params: Params }) {
         </div>
         <div className='flex flex-col gap-2 w-full max-w-5xl'>
           <div className='flex gap-2'>
-            <div className='w-12 h-12 relative'>
-              <Image
-                src={authorImageURL || '/default-author-image.jpg'}
-                alt={formatAuthorImageAltText(name)}
-                fill
-                className='rounded-full'
-              />
-            </div>
+            <Link href={`/author/${authorID}`}>
+              <div className='w-12 h-12 relative'>
+                <Image
+                  src={authorImageURL || '/default-author-image.jpg'}
+                  alt={formatAuthorImageAltText(name)}
+                  fill
+                  className='rounded-full'
+                />
+              </div>
+            </Link>
             <div>
-              <h3 className='font-bold'>{name}</h3>
+              <Link href={`/author/${authorID}`}>
+                <h3 className='font-bold'>{name}</h3>
+              </Link>
               <span className='font-medium'>@{username}</span>
             </div>
           </div>
