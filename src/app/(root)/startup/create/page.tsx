@@ -5,8 +5,7 @@ import CreateStartupForm from '@/src/app/components/CreateStartupForm'
 async function CreateStartup() {
   const session = await auth()
 
-  // TODO - Tambien se lo podria reenviar a la pantalla de logeo
-  if (session === null) redirect('/')
+  if (session === null) redirect('/auth/signin')
 
   return (
     <main>

@@ -4,9 +4,21 @@ import { client } from '@/src/sanity/lib/client'
 import { writeClient } from './src/sanity/lib/write-client'
 import { AUTHOR_BY_AUTHPROVIDER_ID_QUERY } from './src/sanity/lib/queries'
 import { SanityAssetDocument } from 'next-sanity'
+import type { Provider } from 'next-auth/providers'
+
+const providers: Provider[] = [Google]
+
+export const providersMap = providers.map(provider => {
+  if (typeof provider === 'function') {
+    const providerData = provider()
+    return { id: providerData.id, name: providerData.name }
+  } else {
+    return { id: provider.id, name: provider.name }
+  }
+})
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [Google],
+  providers,
   callbacks: {
     async signIn({ profile }) {
       if (profile === undefined) throw new Error('Authentication error')
@@ -79,5 +91,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       return session
     },
+  },
+  pages: {
+    signIn: '/auth/signin',
   },
 })
