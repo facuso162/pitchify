@@ -1,4 +1,4 @@
-import { auth, providersMap, signIn } from '@/auth'
+import { auth, providersMap, signIn } from '@/src/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'

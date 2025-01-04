@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 import { client } from '@/src/sanity/lib/client'
-import { writeClient } from './src/sanity/lib/write-client'
-import { AUTHOR_BY_AUTHPROVIDER_ID_QUERY } from './src/sanity/lib/queries'
+import { writeClient } from './sanity/lib/write-client'
+import { AUTHOR_BY_AUTHPROVIDER_ID_QUERY } from './sanity/lib/queries'
 import { SanityAssetDocument } from 'next-sanity'
 import type { Provider } from 'next-auth/providers'
 

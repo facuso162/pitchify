@@ -1,6 +1,6 @@
-import { auth } from '@/auth'
+import { auth } from '@/src/auth'
 import { redirect } from 'next/navigation'
-import CreateStartupForm from '@/src/app/components/CreateStartupForm'
+import CreateStartupForm from '@/src/components/CreateStartupForm'
 
 async function CreateStartup() {
   const session = await auth()

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { auth } from '@/auth'
-import { singInAction, singOutAction } from '@/src/app/actions/authActions'
+import { auth } from '@/src/auth'
+import { singInAction, singOutAction } from '@/src/actions/authActions'
 
 async function Navbar() {
   const session = await auth()

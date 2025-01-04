@@ -2,8 +2,8 @@ import Image from 'next/image'
 import { Eye } from 'lucide-react'
 import Link from 'next/link'
 import { STARTUPS_QUERYResult } from '@/src/sanity/types'
-import { formatDate } from '../utils/format'
-import { formatStartupImageAltText, formatAuthorImageAltText } from '../utils/format'
+import { formatDate } from '@/src/utils/format'
+import { formatStartupImageAltText, formatAuthorImageAltText } from '@/src/utils/format'
 
 type StartupCardProps = {
   startup: STARTUPS_QUERYResult[number]

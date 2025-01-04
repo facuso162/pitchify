@@ -4,7 +4,7 @@ import { STARTUPS_QUERY, STARTUP_DETAILS_QUERY } from '@/src/sanity/lib/queries'
 import { client } from '@/src/sanity/lib/client'
 import { writeClient } from '@/src/sanity/lib/write-client'
 import slugify from 'slugify'
-import { auth } from '@/auth'
+import { auth } from '@/src/auth'
 import { SanityAssetDocument } from 'next-sanity'
 
 export const getStartupsAction = async (startupsParams: { q: string | null }) => {

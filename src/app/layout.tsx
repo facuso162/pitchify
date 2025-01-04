@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import 'easymde/dist/easymde.min.css'
-import { workSans } from './fonts/fonts'
+import { workSans } from '@/src/fonts/fonts'
 
 export const metadata: Metadata = {
   title: 'Pitchify',

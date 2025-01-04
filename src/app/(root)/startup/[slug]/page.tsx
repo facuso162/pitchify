@@ -1,13 +1,10 @@
-import {
-  getStartupDetailsAction,
-  increaseStartupViewsAction,
-} from '@/src/app/actions/startupsActions'
-import { formatDate } from '@/src/app/utils/format'
+import { getStartupDetailsAction, increaseStartupViewsAction } from '@/src/actions/startupsActions'
+import { formatDate } from '@/src/utils/format'
 import Image from 'next/image'
 import markdownit from 'markdown-it'
 import { notFound } from 'next/navigation'
 import { unstable_after as after } from 'next/server'
-import { formatStartupImageAltText, formatAuthorImageAltText } from '@/src/app/utils/format'
+import { formatStartupImageAltText, formatAuthorImageAltText } from '@/src/utils/format'
 
 const md = markdownit()
 

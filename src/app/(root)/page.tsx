@@ -1,7 +1,7 @@
-import Hero from '../components/Hero'
-import Startups from '../components/Startups'
-import { SearchParams } from '../types/general'
-import { getStartupsAction } from '../actions/startupsActions'
+import Hero from '@/src/components/Hero'
+import Startups from '@/src/components/Startups'
+import { SearchParams } from '@/src/types/general'
+import { getStartupsAction } from '@/src/actions/startupsActions'
 
 type HomePageProps = {
   searchParams: SearchParams

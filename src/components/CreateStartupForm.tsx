@@ -3,11 +3,11 @@
 import { Send } from 'lucide-react'
 import { useActionState, useState } from 'react'
 import MDEditor from '@uiw/react-md-editor'
-import { startupSchema } from '@/src/validation'
-import { createStartupAction } from '../actions/startupsActions'
+import { startupSchema } from '@/src/utils/validation'
+import { createStartupAction } from '@/src/actions/startupsActions'
 import ImageUpload from './ImageUpload'
 import { z } from 'zod'
-import { validateImageFormat } from '../utils/validation'
+import { validateImageFormat } from '@/src/utils/validation'
 import { useRouter } from 'next/navigation'
 
 type CreateStartupFormErrors = {
