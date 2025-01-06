@@ -1,6 +1,10 @@
 'use server'
 
-import { STARTUPS_QUERY, STARTUP_DETAILS_QUERY } from '@/src/sanity/lib/queries'
+import {
+  STARTUPS_QUERY,
+  STARTUP_DETAILS_QUERY,
+  STARTUPS_BY_AUTHOR_ID_QUERY,
+} from '@/src/sanity/lib/queries'
 import { client } from '@/src/sanity/lib/client'
 import { writeClient } from '@/src/sanity/lib/write-client'
 import slugify from 'slugify'
@@ -15,6 +19,11 @@ export const getStartupsAction = async (startupsParams: { q: string | null }) =>
 export const getStartupDetailsAction = async (slug: string) => {
   const startup = await client.fetch(STARTUP_DETAILS_QUERY, { slug })
   return startup
+}
+
+export const getStartupsByAuthorID = async (authorID: string) => {
+  const startups = await client.fetch(STARTUPS_BY_AUTHOR_ID_QUERY, { authorID })
+  return startups
 }
 
 export const increaseStartupViewsAction = async (id: string) => {

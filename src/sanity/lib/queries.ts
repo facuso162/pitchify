@@ -48,3 +48,33 @@ export const AUTHOR_BY_AUTHPROVIDER_ID_QUERY = defineQuery(
       'imageUrl': image.asset -> .url,  
   }`
 )
+
+export const AUTHOR_BY_ID_QUERY = defineQuery(
+  `*[_type == "author" && _id == $authorID][0] {
+      'authorID': _id,
+      authProviderID,
+      name,
+      username,
+      bio,
+      'imageUrl': image.asset -> .url,  
+  }`
+)
+
+export const STARTUPS_BY_AUTHOR_ID_QUERY = defineQuery(
+  `*[_type == 'startup' && author->_id == $authorID] {
+    'startupID': _id,
+    'slug': slug.current,
+    title, 
+    description, 
+    'imageUrl':image.asset -> .url,
+    category, 
+    views, 
+    _createdAt,
+    author->{
+        'authorID': _id,
+        authProviderID,
+        name,
+        'imageUrl': image.asset -> .url,  
+    },
+  }`
+)
