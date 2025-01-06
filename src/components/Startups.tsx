@@ -9,13 +9,13 @@ type StartupsProps = {
 
 function Startups({ query, startups }: StartupsProps) {
   return (
-    <section className='py-6'>
+    <section className='py-6 px-4 flex flex-col gap-8'>
       <h2 className='text-black font-semibold text-lg px-4 md:px-16'>
         {query ? `Search results for "${query}"` : `All Startups`}
       </h2>
 
       {startups.length > 0 ? (
-        <ul className='card-grid justify-center py-6 px-4'>
+        <ul className='card-grid justify-center'>
           {startups.map(startup => (
             <StartupCard startup={startup} key={startup.slug} />
           ))}
