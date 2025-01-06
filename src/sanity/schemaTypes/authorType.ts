@@ -1,6 +1,5 @@
 import { defineField, defineType } from 'sanity'
 
-// Hay que mejorar este tipo
 export const authorType = defineType({
   name: 'author',
   title: 'Author',
@@ -13,14 +12,17 @@ export const authorType = defineType({
     defineField({
       name: 'name',
       type: 'string',
+      validation: rule => rule.required().error('Please enter a name'),
     }),
     defineField({
       name: 'username',
       type: 'string',
+      validation: rule => rule.required().error('Please enter an username'),
     }),
     defineField({
       name: 'email',
       type: 'string',
+      validation: rule => rule.required().error('Please enter an email'),
     }),
     defineField({
       name: 'image',
