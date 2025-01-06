@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { STARTUPS_QUERYResult } from '@/src/sanity/types'
 import { formatDate } from '@/src/utils/format'
 import { formatStartupImageAltText, formatAuthorImageAltText } from '@/src/utils/format'
+import { getCategoryTitle } from '../utils/category'
 
 type StartupCardProps = {
   startup: STARTUPS_QUERYResult[number]
@@ -85,7 +86,7 @@ function StartupCard({ startup }: StartupCardProps) {
             <span className='font-medium text-base'>{getCategoryTitle(category)}</span>
           </Link>
           <Link
-            href={`/?query=${category.toLocaleLowerCase()}`}
+            href={`/startup/${slug}`}
             className='bg-black-200 rounded-full px-4 py-2 text-base font-medium text-white'>
             Details
           </Link>
