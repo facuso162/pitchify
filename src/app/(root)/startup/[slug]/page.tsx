@@ -49,13 +49,13 @@ async function StartupDetails({ params }: { params: Params }) {
   after(async () => await increaseStartupViewsAction(startupID))
 
   return (
-    <main>
+    <main className='flex flex-col items-center'>
       <section className='pink-container'>
         <h5 className='tag'>{formatDate(_createdAt)}</h5>
         <h1 className='heading'>{title}</h1>
         <p className='sub-heading'>{description}</p>
       </section>
-      <section className='flex flex-col items-center text-black p-4 gap-4'>
+      <section className='flex flex-col items-center text-black p-4 gap-4 max-w-screen-large-grid w-full'>
         <div className='min-w-72 min-h-40 max-w-5xl w-full aspect-[16/9] relative md:my-4'>
           <Image
             src={startupImageURL || '/default-startup-image.png'}

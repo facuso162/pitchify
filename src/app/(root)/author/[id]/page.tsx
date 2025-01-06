@@ -24,7 +24,7 @@ async function AuthorDetails({ params }: Params) {
 
   return (
     <main className='flex justify-center'>
-      <div className='p-4 mt-4 gap-8 flex flex-col max-w-[936px] w-full'>
+      <div className='p-4 mt-4 gap-8 flex flex-col max-w-screen-large-grid w-full'>
         <section className='border-4  shadow-200 border-black relative bg-primary flex justify-between rounded-3xl p-2 w-72'>
           <div className='absolute border-2 border-black bg-white right-4 -top-4 px-5 py-1 rounded-xl uppercase font-extrabold'>
             <h1 className='text-black'>{name}</h1>
