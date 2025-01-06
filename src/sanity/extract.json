@@ -422,7 +422,69 @@
       "category": {
         "type": "objectAttribute",
         "value": {
-          "type": "string"
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "ai-robotics"
+            },
+            {
+              "type": "string",
+              "value": "ecommerce"
+            },
+            {
+              "type": "string",
+              "value": "education"
+            },
+            {
+              "type": "string",
+              "value": "fashion-style"
+            },
+            {
+              "type": "string",
+              "value": "finance-crypto"
+            },
+            {
+              "type": "string",
+              "value": "food-beverage"
+            },
+            {
+              "type": "string",
+              "value": "gaming"
+            },
+            {
+              "type": "string",
+              "value": "health-wellness"
+            },
+            {
+              "type": "string",
+              "value": "logistics"
+            },
+            {
+              "type": "string",
+              "value": "marketing"
+            },
+            {
+              "type": "string",
+              "value": "proptech"
+            },
+            {
+              "type": "string",
+              "value": "renewable-energy"
+            },
+            {
+              "type": "string",
+              "value": "sustainability"
+            },
+            {
+              "type": "string",
+              "value": "technology"
+            },
+            {
+              "type": "string",
+              "value": "travel-tourism"
+            }
+          ]
         },
         "optional": true
       },

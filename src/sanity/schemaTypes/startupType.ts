@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity'
+import { categoriesList } from '@/src/utils/consts'
 
-// Hay que mejorar este tipo
 export const startupType = defineType({
   name: 'startup',
   title: 'Startup',
@@ -17,27 +17,32 @@ export const startupType = defineType({
       options: {
         source: 'title',
       },
+      validation: rule => rule.required().error('Please enter or generate a slug'),
     }),
     defineField({
       name: 'author',
       type: 'reference',
       to: { type: 'author' },
+      validation: rule => rule.required().error('Please enter an author'),
     }),
     defineField({
       name: 'views',
       type: 'number',
       initialValue: 0,
+      validation: rule => rule.required().error('Please enter a views number'),
     }),
     defineField({
       name: 'description',
       type: 'text',
       validation: rule => rule.required().error('Please enter a description'),
     }),
-    // TODO - La categoria tendria que ser un select
     defineField({
       name: 'category',
       type: 'string',
-      validation: rule => rule.min(1).max(20).required().error('Please enter a category'),
+      options: {
+        list: categoriesList,
+      },
+      validation: rule => rule.required().error('Please enter a category'),
     }),
     defineField({
       name: 'image',

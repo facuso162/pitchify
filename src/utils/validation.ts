@@ -7,8 +7,35 @@ export const validateImageFormat = (image: File) => {
 }
 
 export const startupSchema = z.object({
-  title: z.string().max(50).trim().min(1),
-  description: z.string().max(300).trim().min(1),
-  category: z.string().max(20).trim().min(1),
-  pitch: z.string().min(1),
+  title: z
+    .string()
+    .trim()
+    .min(1, { message: 'Title is required.' })
+    .max(60, { message: 'Title must not exceed 60 characters.' }),
+  description: z
+    .string()
+    .trim()
+    .min(1, { message: 'Description is required.' })
+    .max(120, { message: 'Description must not exceed 120 characters.' }),
+  category: z.enum(
+    [
+      'ai-robotics',
+      'ecommerce',
+      'education',
+      'fashion-style',
+      'finance-crypto',
+      'food-beverage',
+      'gaming',
+      'health-wellness',
+      'logistics',
+      'marketing',
+      'proptech',
+      'renewable-energy',
+      'sustainability',
+      'technology',
+      'travel-tourism',
+    ],
+    { message: 'Please select a valid category from the list.' }
+  ),
+  pitch: z.string().trim().min(1, { message: 'Pitch is required.' }),
 })

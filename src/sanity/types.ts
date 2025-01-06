@@ -84,7 +84,22 @@ export type Startup = {
   }
   views?: number
   description?: string
-  category?: string
+  category?:
+    | 'ai-robotics'
+    | 'ecommerce'
+    | 'education'
+    | 'fashion-style'
+    | 'finance-crypto'
+    | 'food-beverage'
+    | 'gaming'
+    | 'health-wellness'
+    | 'logistics'
+    | 'marketing'
+    | 'proptech'
+    | 'renewable-energy'
+    | 'sustainability'
+    | 'technology'
+    | 'travel-tourism'
   image?: {
     asset?: {
       _ref: string
@@ -213,7 +228,23 @@ export type STARTUPS_QUERYResult = Array<{
   title: string | null
   description: string | null
   imageUrl: string | null
-  category: string | null
+  category:
+    | 'ai-robotics'
+    | 'ecommerce'
+    | 'education'
+    | 'fashion-style'
+    | 'finance-crypto'
+    | 'food-beverage'
+    | 'gaming'
+    | 'health-wellness'
+    | 'logistics'
+    | 'marketing'
+    | 'proptech'
+    | 'renewable-energy'
+    | 'sustainability'
+    | 'technology'
+    | 'travel-tourism'
+    | null
   views: number | null
   _createdAt: string
   author: {
@@ -231,7 +262,23 @@ export type STARTUP_DETAILS_QUERYResult = {
   title: string | null
   description: string | null
   imageUrl: string | null
-  category: string | null
+  category:
+    | 'ai-robotics'
+    | 'ecommerce'
+    | 'education'
+    | 'fashion-style'
+    | 'finance-crypto'
+    | 'food-beverage'
+    | 'gaming'
+    | 'health-wellness'
+    | 'logistics'
+    | 'marketing'
+    | 'proptech'
+    | 'renewable-energy'
+    | 'sustainability'
+    | 'technology'
+    | 'travel-tourism'
+    | null
   _createdAt: string
   pitch: string | null
   author: {
@@ -269,7 +316,23 @@ export type STARTUPS_BY_AUTHOR_ID_QUERYResult = Array<{
   title: string | null
   description: string | null
   imageUrl: string | null
-  category: string | null
+  category:
+    | 'ai-robotics'
+    | 'ecommerce'
+    | 'education'
+    | 'fashion-style'
+    | 'finance-crypto'
+    | 'food-beverage'
+    | 'gaming'
+    | 'health-wellness'
+    | 'logistics'
+    | 'marketing'
+    | 'proptech'
+    | 'renewable-energy'
+    | 'sustainability'
+    | 'technology'
+    | 'travel-tourism'
+    | null
   views: number | null
   _createdAt: string
   author: {

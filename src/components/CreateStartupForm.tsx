@@ -9,6 +9,7 @@ import ImageUpload from './ImageUpload'
 import { z } from 'zod'
 import { validateImageFormat } from '@/src/utils/validation'
 import { useRouter } from 'next/navigation'
+import { categoriesList } from '../utils/consts'
 
 type CreateStartupFormErrors = {
   title?: string
@@ -21,6 +22,7 @@ type CreateStartupFormErrors = {
 function CreateStartupForm() {
   const [pitch, setPitch] = useState<string>('')
   const [image, setImage] = useState<File | null>(null)
+  const [category, setCategory] = useState<string>('')
   const router = useRouter()
 
   const handleFormSubmit = async (_: CreateStartupFormErrors, formData: FormData) => {
@@ -108,14 +110,20 @@ function CreateStartupForm() {
         <label htmlFor='category' className='font-bold uppercase tracking-wide'>
           Category
         </label>
-        <input
-          type='text'
+        <select
           name='category'
           id='category'
-          className='border-2 border-black rounded-3xl px-2 py-2 text-sm font-medium'
-          placeholder='Choose a category (e.g., Tech, Health, etc.)'
+          value={category}
+          className={`border-2 border-black rounded-3xl px-2 py-2 text-sm font-medium ${category === '' ? 'text-black-300' : ''}`}
           required
-        />
+          onChange={e => setCategory(e.target.value)}>
+          <option value={''}>Choose a category</option>
+          {categoriesList.map((category: { title: string; value: string }) => (
+            <option key={category.value} value={category.value}>
+              {category.title}
+            </option>
+          ))}
+        </select>
         {errors.category && (
           <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.category}</p>
         )}

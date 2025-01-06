@@ -81,8 +81,8 @@ function StartupCard({ startup }: StartupCardProps) {
           </Link>
         </div>
         <footer className='flex justify-between items-center'>
-          <Link href={`/?query=${category.toLocaleLowerCase()}`}>
-            <span className='font-medium text-base'>{category}</span>
+          <Link href={`/?query=${category}`}>
+            <span className='font-medium text-base'>{getCategoryTitle(category)}</span>
           </Link>
           <Link
             href={`/?query=${category.toLocaleLowerCase()}`}
