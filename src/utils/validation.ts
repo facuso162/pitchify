@@ -38,4 +38,14 @@ export const startupSchema = z.object({
     { message: 'Please select a valid category from the list.' }
   ),
   pitch: z.string().trim().min(1, { message: 'Pitch is required.' }),
+  image: z
+    .instanceof(File)
+    .refine(image => image.size <= 5 * 1024 * 1024, {
+      message: 'Image size must not exceed 5 MB.',
+    })
+    .refine(image => validateImageFormat(image), {
+      message: 'Image format must be JPEG, PNG, or WEBP.',
+    })
+    .nullable(),
+})
 })
