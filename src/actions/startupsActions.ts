@@ -10,6 +10,7 @@ import { writeClient } from '@/src/sanity/lib/write-client'
 import slugify from 'slugify'
 import { auth } from '@/src/auth'
 import { SanityAssetDocument } from 'next-sanity'
+import { uploadImageAction } from './imageActions'
 
 export const getStartupsAction = async (startupsParams: { q: string | null }) => {
   const startups = await client.fetch(STARTUPS_QUERY, startupsParams)
@@ -47,9 +48,7 @@ export const createStartupAction = async (startupCreationData: StartupCreationDa
 
   let asset: SanityAssetDocument | null = null
   if (image !== null) {
-    asset = await writeClient.assets.upload('image', image, {
-      filename: image.name,
-    })
+    asset = await uploadImageAction(image, image.name)
   }
 
   const newStartup = {
@@ -61,7 +60,7 @@ export const createStartupAction = async (startupCreationData: StartupCreationDa
     views: 0,
     slug: {
       _type: 'slug',
-      current: slugify(title, { lower: true, remove: /[*+~.()'"!:@]/g, strict: true }),
+      current: slugify(title, { lower: true, remove: /[*+~.()'"!:@]/g, strict: true }), // TODO - Validar que no este en uso
     },
     author: {
       _type: 'reference',
