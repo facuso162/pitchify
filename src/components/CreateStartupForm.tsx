@@ -7,7 +7,6 @@ import { startupSchema } from '@/src/utils/validation'
 import { createStartupAction } from '@/src/actions/startupsActions'
 import ImageUpload from './ImageUpload'
 import { z } from 'zod'
-import { validateImageFormat } from '@/src/utils/validation'
 import { useRouter } from 'next/navigation'
 import { categoriesList } from '../utils/consts'
 
@@ -21,7 +20,7 @@ type CreateStartupFormErrors = {
 
 function CreateStartupForm() {
   const [pitch, setPitch] = useState<string>('')
-  const [image, setImage] = useState<File | null>(null)
+  // El estado de category es usado solo para aclarar el texto con la opcion por default
   const [category, setCategory] = useState<string>('')
   const router = useRouter()
 
@@ -30,18 +29,14 @@ function CreateStartupForm() {
       title: formData.get('title'),
       description: formData.get('description'),
       category: formData.get('category'),
+      image: formData.get('image'),
       pitch,
     }
 
     try {
       const validatedFormValues = await startupSchema.parseAsync(formValues)
 
-      if (image !== null && !validateImageFormat(image))
-        throw new Error('Invalid image format (only .png, .jpg or .webp accepted)', {
-          cause: 'image',
-        })
-
-      const createdStartup = await createStartupAction({ ...validatedFormValues, image })
+      const createdStartup = await createStartupAction(validatedFormValues)
 
       router.push(`/startup/${createdStartup.slug.current}`)
 
@@ -52,12 +47,12 @@ function CreateStartupForm() {
       if (error instanceof z.ZodError) {
         const zodErrors = error.flatten().fieldErrors
         for (const error in zodErrors) {
-          errors[error as 'title' | 'description' | 'category' | 'pitch'] = zodErrors[error]
+          errors[error as 'title' | 'description' | 'category' | 'pitch' | 'image'] = zodErrors[
+            error
+          ]
             ? zodErrors[error][0]
             : 'Unexpected error'
         }
-      } else if (error instanceof Error && error.cause === 'image') {
-        errors[error.cause] = error.message
       } else {
         throw error
       }
@@ -67,10 +62,6 @@ function CreateStartupForm() {
   }
 
   const [errors, formAction, isPending] = useActionState(handleFormSubmit, {})
-
-  const onImageChange = (newImage: File) => {
-    setImage(newImage)
-  }
 
   return (
     <form action={formAction} className='flex flex-col gap-4 max-w-3xl w-full md:gap-8'>
@@ -128,7 +119,7 @@ function CreateStartupForm() {
           <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.category}</p>
         )}
       </div>
-      <ImageUpload onChange={onImageChange} image={image} />
+      <ImageUpload type='startup' />
       {errors.image && (
         <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.image}</p>
       )}

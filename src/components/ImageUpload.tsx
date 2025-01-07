@@ -4,13 +4,15 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
 type ImageUploadProps = {
-  onChange: (newImage: File) => void
-  image: File | null
+  type: 'startup' | 'author'
+  initialImageURL?: string
 }
 
-function ImageUpload({ onChange, image }: ImageUploadProps) {
+function ImageUpload({ initialImageURL, type }: ImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
+  const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(
+    initialImageURL ? initialImageURL : null
+  )
 
   useEffect(() => {
     return () => {
@@ -23,9 +25,8 @@ function ImageUpload({ onChange, image }: ImageUploadProps) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newImage = e.target.files?.[0]
 
-    if (!newImage) return
+    if (newImage === undefined) return
 
-    onChange(newImage)
     setImagePreviewURL(window.URL.createObjectURL(newImage))
   }
 
@@ -33,15 +34,19 @@ function ImageUpload({ onChange, image }: ImageUploadProps) {
     fileInputRef.current?.click()
   }
 
+  const defaultImage =
+    type === 'startup' ? '/default-startup-image.png' : '/default-author-image.jpg'
+
   return (
     <div className='flex flex-col gap-2'>
-      <label className='font-bold uppercase tracking-wide'>Image</label>
+      <label className='font-bold uppercase tracking-wide text-black'>Image</label>
       <div className='flex flex-col-reverse gap-2 md:flex-row'>
         <div className='flex flex-col gap-1'>
           <button
             onClick={handleClickRedirect}
-            className='w-full border-2 border-black rounded-3xl px-2 py-2 text-sm font-medium hover:bg-black hover:text-white cursor-pointer'>
-            {image ? image.name : 'Choose an image'}
+            type='button'
+            className='w-full border-2 border-black text-black rounded-3xl px-2 py-2 text-sm font-medium hover:bg-black hover:text-white cursor-pointer'>
+            Choose an image
           </button>
           <p className='text-xs text-black-300 font-medium'>
             Click above or on the preview to change image
@@ -58,9 +63,9 @@ function ImageUpload({ onChange, image }: ImageUploadProps) {
         </div>
         <div
           onClick={handleClickRedirect}
-          className='relative w-full aspect-[16/9] border-2 border-black rounded-3xl overflow-hidden cursor-pointer'>
+          className={`${type === 'startup' ? 'aspect-[16/9] rounded-3xl w-full' : 'rounded-full aspect-square w-1/5'} relative  border-2 border-black overflow-hidden cursor-pointer`}>
           <Image
-            src={imagePreviewURL || '/default-startup-image.png'}
+            src={imagePreviewURL || defaultImage}
             alt='Startup image preview'
             fill
             className='object-cover'
