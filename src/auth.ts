@@ -1,10 +1,7 @@
 import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
-import { client } from '@/src/sanity/lib/client'
-import { writeClient } from './sanity/lib/write-client'
-import { AUTHOR_BY_AUTHPROVIDER_ID_QUERY } from './sanity/lib/queries'
-import { SanityAssetDocument } from 'next-sanity'
 import type { Provider } from 'next-auth/providers'
+import { getAuthorByAuthProviderIDAction, createAuthorAction } from './actions/authorActions'
 
 const providers: Provider[] = [Google]
 
@@ -25,9 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (!profile.name || !profile.sub || !profile.email) throw new Error('Invalid profile data')
 
-      const author = await client.fetch(AUTHOR_BY_AUTHPROVIDER_ID_QUERY, {
-        authProviderID: profile.sub,
-      })
+      const author = await getAuthorByAuthProviderIDAction(profile.sub)
 
       if (author) return true
 
@@ -40,25 +35,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      const newAuthor = {
-        _type: 'author',
+      await createAuthorAction({
         authProviderID: profile.sub,
         name: profile.name,
-        username: profile.email.split('@')[0],
         email: profile.email,
-        bio: '',
-        image: asset
-          ? {
-              _type: 'image',
-              asset: {
-                _type: 'reference',
-                _ref: asset._id,
-              },
-            }
-          : null,
-      }
+        image: authorImage,
+      })
 
-      await writeClient.create(newAuthor)
       return true
     },
 
@@ -70,11 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // no se pasa el profile, y por lo tanto, hay que chequear que no sea
       // undefined.
       if (profile !== undefined) {
-        const author = await client
-          .withConfig({ useCdn: false })
-          .fetch(AUTHOR_BY_AUTHPROVIDER_ID_QUERY, {
-            authProviderID: profile.sub || null,
-          })
+        const author = await getAuthorByAuthProviderIDAction(profile.sub || null, true)
 
         token.authorID = author ? author.authorID : null
       }
