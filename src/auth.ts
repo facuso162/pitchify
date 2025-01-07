@@ -31,16 +31,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (author) return true
 
-      let asset: SanityAssetDocument | null = null
+      let authorImage: File | null = null
       if (profile.picture as string) {
         const authorImageFetchResponse = await fetch(profile.picture)
 
         if (authorImageFetchResponse.ok) {
-          const authorImage = await authorImageFetchResponse.blob()
-
-          asset = await writeClient.assets.upload('image', authorImage, {
-            filename: profile.name,
-          })
+          authorImage = new File([await authorImageFetchResponse.blob()], profile.name)
         }
       }
 
