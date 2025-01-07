@@ -56,6 +56,7 @@ export const AUTHOR_BY_ID_QUERY = defineQuery(
       name,
       username,
       bio,
+      email,
       'imageUrl': image.asset -> .url,  
   }`
 )
