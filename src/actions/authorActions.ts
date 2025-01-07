@@ -61,6 +61,7 @@ export const createAuthorAction = async ({
   await writeClient.create(newAuthor)
 }
 
+// TODO - Agregar actualizacion de imagen
 type AuthorUpdates = {
   name?: string
   username?: string

@@ -72,6 +72,7 @@ export const authorSchema = z.object({
     .max(120, { message: 'Username must not exceed 120 characters.' })
     .refine(
       async username => {
+        // TODO - Validar username unico
         // Simulación de comprobación en la base de datos
         const isUsernameAvailable = true // Cambia esto por la comprobación real
         return isUsernameAvailable
@@ -86,6 +87,7 @@ export const authorSchema = z.object({
     .email({ message: 'Email must be a valid email address.' })
     .refine(
       async email => {
+        // TODO - Validar email unico
         // Simulación de comprobación en la base de datos
         const isEmailAvailable = true // Cambia esto por la comprobación real
         return isEmailAvailable
