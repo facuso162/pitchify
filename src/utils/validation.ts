@@ -43,9 +43,19 @@ export const startupSchema = z.object({
     .refine(image => image.size <= 5 * 1024 * 1024, {
       message: 'Image size must not exceed 5 MB.',
     })
-    .refine(image => validateImageFormat(image), {
-      message: 'Image format must be JPEG, PNG, or WEBP.',
-    })
+    .refine(
+      image => {
+        // Esta validacion es para cuando no se envia una imagen
+        if (image.size === 0 && image.type === 'application/octet-stream') {
+          return true
+        }
+
+        return validateImageFormat(image)
+      },
+      {
+        message: 'Image format must be JPEG, PNG, or WEBP.',
+      }
+    )
     .nullable(),
 })
 
@@ -88,8 +98,18 @@ export const authorSchema = z.object({
     .refine(image => image.size <= 5 * 1024 * 1024, {
       message: 'Image size must not exceed 5 MB.',
     })
-    .refine(image => validateImageFormat(image), {
-      message: 'Image format must be JPEG, PNG, or WEBP.',
-    })
+    .refine(
+      image => {
+        // Esta validacion es para cuando no se envia una imagen
+        if (image.size === 0 && image.type === 'application/octet-stream') {
+          return true
+        }
+
+        return validateImageFormat(image)
+      },
+      {
+        message: 'Image format must be JPEG, PNG, or WEBP.',
+      }
+    )
     .nullable(),
 })
