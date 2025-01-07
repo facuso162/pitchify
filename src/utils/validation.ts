@@ -48,4 +48,48 @@ export const startupSchema = z.object({
     })
     .nullable(),
 })
+
+export const authorSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, { message: 'Name is required.' })
+    .max(120, { message: 'Name must not exceed 120 characters.' }),
+  username: z
+    .string()
+    .trim()
+    .min(1, { message: 'Username is required.' })
+    .max(120, { message: 'Username must not exceed 120 characters.' })
+    .refine(
+      async username => {
+        // Simulación de comprobación en la base de datos
+        const isUsernameAvailable = true // Cambia esto por la comprobación real
+        return isUsernameAvailable
+      },
+      { message: 'Username is already in use.' }
+    ),
+  email: z
+    .string()
+    .trim()
+    .min(1, { message: 'Email is required.' })
+    .max(120, { message: 'Email must not exceed 120 characters.' })
+    .email({ message: 'Email must be a valid email address.' })
+    .refine(
+      async email => {
+        // Simulación de comprobación en la base de datos
+        const isEmailAvailable = true // Cambia esto por la comprobación real
+        return isEmailAvailable
+      },
+      { message: 'Email is already in use.' }
+    ),
+  bio: z.string().trim().max(120, { message: 'Bio must not exceed 120 characters.' }).optional(),
+  image: z
+    .instanceof(File)
+    .refine(image => image.size <= 5 * 1024 * 1024, {
+      message: 'Image size must not exceed 5 MB.',
+    })
+    .refine(image => validateImageFormat(image), {
+      message: 'Image format must be JPEG, PNG, or WEBP.',
+    })
+    .nullable(),
 })
