@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { auth } from '@/src/auth'
 import { singInAction, singOutAction } from '@/src/actions/authActions'
+import { Plus, LayoutGrid, LogOut } from 'lucide-react'
 
 async function Navbar() {
   const session = await auth()
@@ -16,13 +17,21 @@ async function Navbar() {
         </Link>
         {session && session.authorID ? (
           <div className='flex items-center gap-4'>
-            <Link href={'/startup/create'} className='text-black font-medium md:text-lg'>
-              Create
+            <Link href={'/startup/create'}>
+              <span className='text-black font-medium hidden xs:inline md:text-lg'>Create</span>
+              <Plus size={20} className='text-black xs:hidden' />
             </Link>
-            <button className='text-primary font-medium md:text-lg' onClick={singOutAction}>
-              Logout
-            </button>
             <Link href={`/author/${session.authorID}`}>
+              <span className='text-black font-medium hidden xs:inline md:text-lg'>
+                Your startups
+              </span>
+              <LayoutGrid size={20} className='text-black xs:hidden' />
+            </Link>
+            <button onClick={singOutAction}>
+              <span className='text-primary font-medium hidden xs:inline md:text-lg'>Logout</span>
+              <LogOut size={20} className='text-primary xs:hidden' />
+            </button>
+            <Link href={`/author/${session.authorID}/config`}>
               <div className='w-9 h-9 rounded-full relative'>
                 <Image
                   src={
