@@ -3,9 +3,16 @@ import Link from 'next/link'
 import { auth } from '@/src/auth'
 import { singInAction, singOutAction } from '@/src/actions/authActions'
 import { Plus, LayoutGrid, LogOut } from 'lucide-react'
+import { getAuthorAction } from '../actions/authorActions'
+import { AUTHOR_BY_ID_QUERYResult } from '../sanity/types'
 
 async function Navbar() {
   const session = await auth()
+
+  let author: AUTHOR_BY_ID_QUERYResult | null = null
+  if (session && session.authorID) {
+    author = await getAuthorAction(session.authorID)
+  }
 
   return (
     <header className='h-16 bg-slate-100 px-4 flex items-center md:px-16'>
@@ -15,13 +22,13 @@ async function Navbar() {
             <Image src='/pitchify-logo.svg' className='-top-1' alt='Logo de pitchify' fill />
           </div>
         </Link>
-        {session && session.authorID ? (
+        {author ? (
           <div className='flex items-center gap-4'>
             <Link href={'/startup/create'}>
               <span className='text-black font-medium hidden xs:inline md:text-lg'>Create</span>
               <Plus size={20} className='text-black xs:hidden' />
             </Link>
-            <Link href={`/author/${session.authorID}`}>
+            <Link href={`/author/${author.authorID}`}>
               <span className='text-black font-medium hidden xs:inline md:text-lg'>
                 Your startups
               </span>
@@ -31,14 +38,10 @@ async function Navbar() {
               <span className='text-primary font-medium hidden xs:inline md:text-lg'>Logout</span>
               <LogOut size={20} className='text-primary xs:hidden' />
             </button>
-            <Link href={`/author/${session.authorID}/config`}>
+            <Link href={`/author/${author.authorID}/config`}>
               <div className='w-9 h-9 rounded-full relative'>
                 <Image
-                  src={
-                    session.user && session.user.image
-                      ? session.user.image
-                      : '/default-author-photo.png'
-                  }
+                  src={author.imageUrl || '/default-author-image.webp'}
                   style={{ borderRadius: '50%' }}
                   fill
                   alt='Foto de perfil'
