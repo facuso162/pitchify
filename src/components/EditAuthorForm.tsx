@@ -119,7 +119,14 @@ function EditAuthorForm({ author }: EditAuthorFormProps) {
     }
 
     if ((e.target as HTMLInputElement).name === 'image') {
-      setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, image: currentValues.image }))
+      if ((e.target as HTMLInputElement).value === '') {
+        setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, image: null }))
+      } else {
+        setUpdatedFields(prevUpdatedFields => ({
+          ...prevUpdatedFields,
+          image: currentValues.image,
+        }))
+      }
     }
   }
 
