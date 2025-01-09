@@ -22,7 +22,7 @@ export const getStartupDetailsAction = async (slug: string) => {
   return startup
 }
 
-export const getStartupsByAuthorID = async (authorID: string) => {
+export const getStartupsByAuthorIDAction = async (authorID: string) => {
   const startups = await client.fetch(STARTUPS_BY_AUTHOR_ID_QUERY, { authorID })
   return startups
 }

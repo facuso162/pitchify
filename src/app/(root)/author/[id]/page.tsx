@@ -1,5 +1,5 @@
 import { getAuthorAction } from '@/src/actions/authorActions'
-import { getStartupsByAuthorID } from '@/src/actions/startupsActions'
+import { getStartupsByAuthorIDAction } from '@/src/actions/startupsActions'
 import Image from 'next/image'
 import StartupCard from '@/src/components/StartupCard'
 
@@ -20,7 +20,7 @@ async function AuthorDetails({ params }: Params) {
     throw new Error('Getting null data for the author')
   }
 
-  const startups = await getStartupsByAuthorID(id)
+  const startups = await getStartupsByAuthorIDAction(id)
 
   return (
     <main className='flex justify-center'>
