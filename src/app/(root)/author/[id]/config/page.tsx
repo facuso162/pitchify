@@ -29,7 +29,7 @@ async function AuthorConfig({ params }: Params) {
           <div className='border-2 border-black rounded-full'>
             <div className='w-20 h-20 rounded-full relative border-2 border-white'>
               <Image
-                src={authorImageURL || '/default-author-photo.png'}
+                src={authorImageURL || '/default-author-image.webp'}
                 style={{ borderRadius: '50%' }}
                 fill
                 alt='Foto de perfil'

@@ -62,7 +62,7 @@ function StartupCard({ startup }: StartupCardProps) {
           <div className='w-10 h-10 relative'>
             <Link href={`/author/${authorID}`}>
               <Image
-                src={authorImageURL || '/default-author-image.jpg'}
+                src={authorImageURL || '/default-author-image.webp'}
                 fill
                 alt={formatAuthorImageAltText(name)}
                 className='rounded-full'
@@ -74,7 +74,7 @@ function StartupCard({ startup }: StartupCardProps) {
         <div className='w-full h-40 relative'>
           <Link href={`/startup/${slug}`}>
             <Image
-              src={startupImageURL || '/default-startup-image.png'}
+              src={startupImageURL || '/default-startup-image.webp'}
               alt={formatStartupImageAltText(title)}
               fill
               className='rounded-xl'

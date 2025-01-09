@@ -35,7 +35,7 @@ function ImageUpload({ initialImageURL, type }: ImageUploadProps) {
   }
 
   const defaultImage =
-    type === 'startup' ? '/default-startup-image.png' : '/default-author-image.jpg'
+    type === 'startup' ? '/default-startup-image.webp' : '/default-author-image.webp'
 
   return (
     <div className='flex flex-col gap-2'>

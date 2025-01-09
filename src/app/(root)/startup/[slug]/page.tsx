@@ -58,7 +58,7 @@ async function StartupDetails({ params }: { params: Params }) {
       <section className='flex flex-col items-center text-black p-4 gap-4 max-w-screen-large-grid w-full'>
         <div className='min-w-72 min-h-40 max-w-5xl w-full aspect-[16/9] relative md:my-4'>
           <Image
-            src={startupImageURL || '/default-startup-image.png'}
+            src={startupImageURL || '/default-startup-image.webp'}
             alt={formatStartupImageAltText(title)}
             fill
             className='rounded-xl'
@@ -69,7 +69,7 @@ async function StartupDetails({ params }: { params: Params }) {
             <Link href={`/author/${authorID}`}>
               <div className='w-12 h-12 relative'>
                 <Image
-                  src={authorImageURL || '/default-author-image.jpg'}
+                  src={authorImageURL || '/default-author-image.webp'}
                   alt={formatAuthorImageAltText(name)}
                   fill
                   className='rounded-full'
