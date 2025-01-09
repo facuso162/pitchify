@@ -1,6 +1,8 @@
 import { getAuthorAction } from '@/src/actions/authorActions'
 import Image from 'next/image'
 import EditAuthorForm from '@/src/components/EditAuthorForm'
+import { auth } from '@/src/auth'
+import { redirect } from 'next/navigation'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -17,6 +19,16 @@ async function AuthorConfig({ params }: Params) {
 
   if (name === null || username === null) {
     throw new Error('Getting null data for the author')
+  }
+
+  const session = await auth()
+
+  if (session === null || session.authorID === undefined) {
+    redirect('/auth/signin')
+  }
+
+  if (session.authorID !== author.authorID) {
+    throw new Error('Only the author itself can see his configuration page')
   }
 
   return (

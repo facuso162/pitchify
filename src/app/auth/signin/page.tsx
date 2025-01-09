@@ -6,7 +6,7 @@ import Image from 'next/image'
 async function SignIn() {
   const session = await auth()
 
-  if (session) {
+  if (session !== null) {
     redirect('/')
   }
 
