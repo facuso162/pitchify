@@ -64,7 +64,8 @@ export const authorSchema = z.object({
     .string()
     .trim()
     .min(1, { message: 'Name is required.' })
-    .max(120, { message: 'Name must not exceed 120 characters.' }),
+    .max(120, { message: 'Name must not exceed 120 characters.' })
+    .optional(),
   username: z
     .string()
     .trim()
@@ -78,7 +79,8 @@ export const authorSchema = z.object({
         return isUsernameAvailable
       },
       { message: 'Username is already in use.' }
-    ),
+    )
+    .optional(),
   email: z
     .string()
     .trim()
@@ -93,25 +95,17 @@ export const authorSchema = z.object({
         return isEmailAvailable
       },
       { message: 'Email is already in use.' }
-    ),
+    )
+    .optional(),
   bio: z.string().trim().max(120, { message: 'Bio must not exceed 120 characters.' }).optional(),
   image: z
     .instanceof(File)
     .refine(image => image.size <= 5 * 1024 * 1024, {
       message: 'Image size must not exceed 5 MB.',
     })
-    .refine(
-      image => {
-        // Esta validacion es para cuando no se envia una imagen
-        if (image.size === 0 && image.type === 'application/octet-stream') {
-          return true
-        }
-
-        return validateImageFormat(image)
-      },
-      {
-        message: 'Image format must be JPEG, PNG, or WEBP.',
-      }
-    )
+    .refine(image => validateImageFormat(image), {
+      message: 'Image format must be JPEG, PNG, or WEBP.',
+    })
+    .optional()
     .nullable(),
 })

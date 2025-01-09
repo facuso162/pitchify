@@ -29,31 +29,33 @@ type EditAuthorFormErrors = {
 }
 
 function EditAuthorForm({ author }: EditAuthorFormProps) {
-  const [hasFormChanged, setHasFormChanged] = useState<boolean>(false)
+  const [updatedFields, setUpdatedFields] = useState<{
+    name?: string
+    username?: string
+    bio?: string
+    email?: string
+    image?: File | null
+  }>({})
   const formRef = useRef<HTMLFormElement | null>(null)
 
-  const handleFormSubmit = async (_: EditAuthorFormErrors, formData: FormData) => {
-    const formValues = {
-      name: formData.get('name'),
-      username: formData.get('username'),
-      email: formData.get('email'),
-      bio: formData.get('bio'),
-      image: formData.get('image'),
-    }
-
+  const handleFormSubmit = async () => {
     try {
-      const validatedFormValues = await authorSchema.parseAsync(formValues)
+      const validatedFormValues = await authorSchema.parseAsync(updatedFields)
 
       await updateAuthorAction(author.authorID, validatedFormValues)
+
+      setUpdatedFields({})
 
       return {}
     } catch (error) {
       const errors: EditAuthorFormErrors = {}
 
+      setUpdatedFields({})
+
       if (error instanceof z.ZodError) {
         const zodErrors = error.flatten().fieldErrors
         for (const error in zodErrors) {
-          errors[error as 'name' | 'username' | 'email' | 'bio'] = zodErrors[error]
+          errors[error as 'name' | 'username' | 'email' | 'bio' | 'image'] = zodErrors[error]
             ? zodErrors[error][0]
             : 'Unexpected error'
         }
@@ -69,7 +71,7 @@ function EditAuthorForm({ author }: EditAuthorFormProps) {
 
   const { name, username, imageUrl: authorImageURL, bio, email } = author
 
-  if (name === null || username === null || email === null) {
+  if (name === null || username === null || email === null || bio === null) {
     throw new Error('Getting null data for the author')
   }
 
@@ -79,24 +81,46 @@ function EditAuthorForm({ author }: EditAuthorFormProps) {
     const formData = new FormData(formRef.current)
 
     const currentValues = {
-      name: formData.get('name'),
-      username: formData.get('username'),
-      email: formData.get('email'),
-      bio: formData.get('bio'),
-      image: formData.get('image'),
+      name: formData.get('name') as string,
+      username: formData.get('username') as string,
+      email: formData.get('email') as string,
+      bio: formData.get('bio') as string,
+      image: formData.get('image') as File,
     }
 
-    if ((e.target as HTMLInputElement).id === 'image') {
-      setHasFormChanged(true)
-      return
+    if (currentValues.name !== name) {
+      setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, name: currentValues.name }))
+    } else {
+      setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, name: undefined }))
     }
 
-    setHasFormChanged(
-      currentValues.name !== name ||
-        currentValues.username !== username ||
-        currentValues.email !== email ||
-        currentValues.bio !== (bio || '')
-    )
+    if (currentValues.username !== username) {
+      setUpdatedFields(prevUpdatedFields => ({
+        ...prevUpdatedFields,
+        username: currentValues.username,
+      }))
+    } else {
+      setUpdatedFields(prevUpdatedFields => ({
+        ...prevUpdatedFields,
+        username: undefined,
+      }))
+    }
+
+    if (currentValues.email !== email) {
+      setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, email: currentValues.email }))
+    } else {
+      setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, email: undefined }))
+    }
+
+    if (currentValues.bio !== bio) {
+      setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, bio: currentValues.bio }))
+    } else {
+      setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, bio: undefined }))
+    }
+
+    if ((e.target as HTMLInputElement).name === 'image') {
+      setUpdatedFields(prevUpdatedFields => ({ ...prevUpdatedFields, image: currentValues.image }))
+    }
   }
 
   return (
@@ -154,7 +178,7 @@ function EditAuthorForm({ author }: EditAuthorFormProps) {
         name='bio'
         id='bio'
         className='border-2 border-black rounded-3xl px-2 py-2 text-sm font-medium resize-none h-24 pitchify-scrollbar overflow-hidden text-black'
-        defaultValue={bio || ''}
+        defaultValue={bio}
       />
       {errors.bio && (
         <p className='font-semibold text-sm text-red-600 tracking-wide'>{errors.bio}</p>
@@ -167,8 +191,8 @@ function EditAuthorForm({ author }: EditAuthorFormProps) {
         type='submit'
         // se desactiva el boton cuando
         // - se envio (osea que isPending = true)
-        // - no cambio la data (osea que hasFormChanged = false)
-        disabled={isPending || !hasFormChanged}
+        // - no cambio la data (osea que Object.keys(updatedFields).length === 0)
+        disabled={isPending || Object.keys(updatedFields).length === 0}
         className='flex border-2 border-black rounded-3xl px-2 py-2 justify-center items-center gap-2 uppercase font-bold text-white bg-primary disabled:bg-primary-disabled disabled:border-primary-disabled'>
         {isPending ? 'Editing...' : 'Accept changes'}
       </button>

@@ -79,15 +79,46 @@ export const createAuthorAction = async ({
   await writeClient.create(newAuthor)
 }
 
-// TODO - Agregar actualizacion de imagen
 type AuthorUpdates = {
   name?: string
   username?: string
   email?: string
   bio?: string
+  image?: File | null
 }
 
 export const updateAuthorAction = async (authorID: string, authorUpdates: AuthorUpdates) => {
-  const updatedAuthor = await writeClient.patch(authorID).set(authorUpdates).commit()
+  const { image } = authorUpdates
+
+  let imageUpdate:
+    | {
+        _type: 'image'
+        asset: {
+          _type: 'reference'
+          _ref: string
+        }
+      }
+    | null
+    | undefined = undefined
+  if (image !== undefined) {
+    // es o un File o null (se borro)
+    if (image !== null) {
+      const asset = await uploadImageAction(image, image.name)
+      imageUpdate = {
+        _type: 'image',
+        asset: {
+          _type: 'reference',
+          _ref: asset._id,
+        },
+      }
+    } else {
+      imageUpdate = null
+    }
+  }
+
+  const updatedAuthor = await writeClient
+    .patch(authorID)
+    .set({ ...authorUpdates, image: imageUpdate })
+    .commit()
   return updatedAuthor
 }
