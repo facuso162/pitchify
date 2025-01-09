@@ -289,6 +289,11 @@ export type STARTUP_DETAILS_QUERYResult = {
     imageUrl: string | null
   } | null
 } | null
+// Variable: STARTUP_BY_SLUG_QUERY
+// Query: *[_type == 'startup' && slug.current == $slug ][0]{    'slug': slug.current,  }
+export type STARTUP_BY_SLUG_QUERYResult = {
+  slug: string | null
+} | null
 // Variable: STARTUPS_BY_AUTHOR_ID_QUERY
 // Query: *[_type == 'startup' && author->_id == $authorID] {    'startupID': _id,    'slug': slug.current,    title,     description,     'imageUrl':image.asset -> .url,    category,     views,     _createdAt,    author->{        'authorID': _id,        authProviderID,        name,        'imageUrl': image.asset -> .url,      },  }
 export type STARTUPS_BY_AUTHOR_ID_QUERYResult = Array<{
@@ -355,6 +360,7 @@ declare module '@sanity/client' {
   interface SanityQueries {
     "*[_type == 'startup' && (!defined($q) || title match $q || author->name match $q || category match $q) ]{\n    'startupID': _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageUrl':image.asset -> .url,\n    category, \n    views, \n    _createdAt,\n    author->{\n        'authorID': _id,\n        authProviderID,\n        name,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUPS_QUERYResult
     "*[_type == 'startup' && slug.current == $slug ][0]{\n    'startupID': _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageUrl':image.asset -> .url,\n    category, \n    _createdAt,\n    pitch,\n    author->{\n        'authorID': _id,\n        authProviderID,\n        name,\n        username,\n        'imageUrl': image.asset -> .url,  \n    },\n}": STARTUP_DETAILS_QUERYResult
+    "*[_type == 'startup' && slug.current == $slug ][0]{\n    'slug': slug.current,\n  }": STARTUP_BY_SLUG_QUERYResult
     "*[_type == 'startup' && author->_id == $authorID] {\n    'startupID': _id,\n    'slug': slug.current,\n    title, \n    description, \n    'imageUrl':image.asset -> .url,\n    category, \n    views, \n    _createdAt,\n    author->{\n        'authorID': _id,\n        authProviderID,\n        name,\n        'imageUrl': image.asset -> .url,  \n    },\n  }": STARTUPS_BY_AUTHOR_ID_QUERYResult
     "*[_type == \"author\" && authProviderID == $authProviderID][0]{\n      'authorID': _id,\n      authProviderID,\n      name,\n      username,\n      'imageUrl': image.asset -> .url,  \n  }": AUTHOR_BY_AUTHPROVIDER_ID_QUERYResult
     "*[_type == \"author\" && _id == $authorID][0] {\n      'authorID': _id,\n      authProviderID,\n      name,\n      username,\n      bio,\n      email,\n      'imageUrl': image.asset -> .url,  \n  }": AUTHOR_BY_ID_QUERYResult

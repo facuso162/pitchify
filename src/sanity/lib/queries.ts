@@ -39,6 +39,12 @@ export const STARTUP_DETAILS_QUERY = defineQuery(
 }`
 )
 
+export const STARTUP_BY_SLUG_QUERY = defineQuery(
+  `*[_type == 'startup' && slug.current == $slug ][0]{
+    'slug': slug.current,
+  }`
+)
+
 export const STARTUPS_BY_AUTHOR_ID_QUERY = defineQuery(
   `*[_type == 'startup' && author->_id == $authorID] {
     'startupID': _id,
