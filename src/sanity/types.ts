@@ -353,6 +353,11 @@ export type AUTHOR_BY_ID_QUERYResult = {
 export type AUTHOR_BY_USERNAME_QUERYResult = {
   authorID: string
 } | null
+// Variable: AUTHOR_BY_EMAIL_QUERY
+// Query: *[_type == "author" && email == $email][0]    {email}
+export type AUTHOR_BY_EMAIL_QUERYResult = {
+  email: string | null
+} | null
 
 // Query TypeMap
 import '@sanity/client'
@@ -365,5 +370,6 @@ declare module '@sanity/client' {
     "*[_type == \"author\" && authProviderID == $authProviderID][0]{\n      'authorID': _id,\n      authProviderID,\n      name,\n      username,\n      'imageUrl': image.asset -> .url,  \n  }": AUTHOR_BY_AUTHPROVIDER_ID_QUERYResult
     "*[_type == \"author\" && _id == $authorID][0] {\n      'authorID': _id,\n      authProviderID,\n      name,\n      username,\n      bio,\n      email,\n      'imageUrl': image.asset -> .url,  \n  }": AUTHOR_BY_ID_QUERYResult
     '*[_type == "author" && username == $username][0]\n    {\'authorID\': _id}\n  ': AUTHOR_BY_USERNAME_QUERYResult
+    '*[_type == "author" && email == $email][0]\n    {email}\n  ': AUTHOR_BY_EMAIL_QUERYResult
   }
 }

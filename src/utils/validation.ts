@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { getAuthorByUsernameAction, getAuthorByEmail } from '@/src/actions/authorActions'
 
 export const validateImageFormat = (image: File) => {
   const imageMimeTypes = ['image/jpeg', 'image/png', 'image/webp']
@@ -63,10 +64,9 @@ export const authorSchema = z.object({
     .max(120, { message: 'Username must not exceed 120 characters.' })
     .refine(
       async username => {
-        // TODO - Validar username unico
-        // Simulación de comprobación en la base de datos
-        const isUsernameAvailable = true // Cambia esto por la comprobación real
-        return isUsernameAvailable
+        const author = await getAuthorByUsernameAction(username)
+
+        return author === null
       },
       { message: 'Username is already in use.' }
     )
@@ -79,10 +79,9 @@ export const authorSchema = z.object({
     .email({ message: 'Email must be a valid email address.' })
     .refine(
       async email => {
-        // TODO - Validar email unico
-        // Simulación de comprobación en la base de datos
-        const isEmailAvailable = true // Cambia esto por la comprobación real
-        return isEmailAvailable
+        const author = await getAuthorByEmail(email)
+
+        return author === null
       },
       { message: 'Email is already in use.' }
     )

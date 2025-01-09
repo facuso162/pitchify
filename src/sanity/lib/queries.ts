@@ -91,3 +91,9 @@ export const AUTHOR_BY_USERNAME_QUERY = defineQuery(
     {'authorID': _id}
   `
 )
+
+export const AUTHOR_BY_EMAIL_QUERY = defineQuery(
+  `*[_type == "author" && email == $email][0]
+    {email}
+  `
+)

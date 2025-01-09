@@ -6,6 +6,7 @@ import {
   AUTHOR_BY_ID_QUERY,
   AUTHOR_BY_AUTHPROVIDER_ID_QUERY,
   AUTHOR_BY_USERNAME_QUERY,
+  AUTHOR_BY_EMAIL_QUERY,
 } from '@/src/sanity/lib/queries'
 import { uploadImageAction } from './imageActions'
 import { SanityAssetDocument } from 'next-sanity'
@@ -29,6 +30,12 @@ export const getAuthorByAuthProviderIDAction = async (
 
 export const getAuthorByUsernameAction = async (username: string) => {
   const author = await client.fetch(AUTHOR_BY_USERNAME_QUERY, { username })
+
+  return author
+}
+
+export const getAuthorByEmail = async (email: string) => {
+  const author = await client.fetch(AUTHOR_BY_EMAIL_QUERY, { email })
 
   return author
 }
@@ -100,6 +107,7 @@ export const updateAuthorAction = async (authorID: string, authorUpdates: Author
       }
     | null
     | undefined = undefined
+  // TODO - Hay que borrar la imagen que quedo colgada
   if (image !== undefined) {
     // es o un File o null (se borro)
     if (image !== null) {
