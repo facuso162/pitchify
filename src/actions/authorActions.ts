@@ -8,9 +8,10 @@ import {
   AUTHOR_BY_USERNAME_QUERY,
   AUTHOR_BY_EMAIL_QUERY,
 } from '@/src/sanity/lib/queries'
-import { uploadImageAction } from './imageActions'
+import { uploadImageAction, getAuthorImageID, deleteImage } from './imageActions'
 import { SanityAssetDocument } from 'next-sanity'
 import { randomInt } from 'node:crypto'
+import { IMAGE_ID_BY_AUTHOR_ID_QUERYResult } from '../sanity/types'
 
 export const getAuthorAction = async (authorID: string) => {
   const author = await client.fetch(AUTHOR_BY_ID_QUERY, { authorID })
@@ -107,9 +108,11 @@ export const updateAuthorAction = async (authorID: string, authorUpdates: Author
       }
     | null
     | undefined = undefined
-  // TODO - Hay que borrar la imagen que quedo colgada
+
+  let imageID: null | IMAGE_ID_BY_AUTHOR_ID_QUERYResult = null
   if (image !== undefined) {
     // es o un File o null (se borro)
+    // de cualquier manera, se borra la anterior
     if (image !== null) {
       const asset = await uploadImageAction(image, image.name)
       imageUpdate = {
@@ -122,11 +125,18 @@ export const updateAuthorAction = async (authorID: string, authorUpdates: Author
     } else {
       imageUpdate = null
     }
+
+    imageID = await getAuthorImageID(authorID)
   }
 
   const updatedAuthor = await writeClient
     .patch(authorID)
     .set({ ...authorUpdates, image: imageUpdate })
     .commit()
+
+  if (imageID !== null) {
+    await deleteImage(imageID)
+  }
+
   return updatedAuthor
 }

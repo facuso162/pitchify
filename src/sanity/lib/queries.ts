@@ -97,3 +97,5 @@ export const AUTHOR_BY_EMAIL_QUERY = defineQuery(
     {email}
   `
 )
+
+export const IMAGE_ID_BY_AUTHOR_ID_QUERY = defineQuery(`*[_type == "author" ] [0].image.asset._ref`)
