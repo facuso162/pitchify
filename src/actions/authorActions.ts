@@ -2,9 +2,14 @@
 
 import { client } from '@/src/sanity/lib/client'
 import { writeClient } from '@/src/sanity/lib/write-client'
-import { AUTHOR_BY_ID_QUERY, AUTHOR_BY_AUTHPROVIDER_ID_QUERY } from '@/src/sanity/lib/queries'
+import {
+  AUTHOR_BY_ID_QUERY,
+  AUTHOR_BY_AUTHPROVIDER_ID_QUERY,
+  AUTHOR_BY_USERNAME_QUERY,
+} from '@/src/sanity/lib/queries'
 import { uploadImageAction } from './imageActions'
 import { SanityAssetDocument } from 'next-sanity'
+import { randomInt } from 'node:crypto'
 
 export const getAuthorAction = async (authorID: string) => {
   const author = await client.fetch(AUTHOR_BY_ID_QUERY, { authorID })
@@ -18,6 +23,12 @@ export const getAuthorByAuthProviderIDAction = async (
   const author = await client.withConfig({ useCdn }).fetch(AUTHOR_BY_AUTHPROVIDER_ID_QUERY, {
     authProviderID,
   })
+
+  return author
+}
+
+export const getAuthorByUsernameAction = async (username: string) => {
+  const author = await client.fetch(AUTHOR_BY_USERNAME_QUERY, { username })
 
   return author
 }
@@ -40,11 +51,18 @@ export const createAuthorAction = async ({
     asset = await uploadImageAction(image, name)
   }
 
+  let username = email.split('@')[0]
+  let author = getAuthorByUsernameAction(username)
+  while (author !== null) {
+    username = `${username}${randomInt(0, 1000)}`
+    author = getAuthorByUsernameAction(username)
+  }
+
   const newAuthor = {
     _type: 'author',
     authProviderID,
     name,
-    username: email.split('@')[0], // TODO - Validar que el username no haya sido usado
+    username,
     email,
     bio: '',
     image: asset
