@@ -18,7 +18,11 @@ type CreateStartupFormErrors = {
   image?: string
 }
 
-function CreateStartupForm() {
+type CreateStartupFormProps = {
+  authorID: string
+}
+
+function CreateStartupForm({ authorID }: CreateStartupFormProps) {
   const [pitch, setPitch] = useState<string>('')
   // El estado de category es usado solo para aclarar el texto con la opcion por default
   const [category, setCategory] = useState<string>('')
@@ -41,7 +45,7 @@ function CreateStartupForm() {
     try {
       const validatedFormValues = await startupSchema.parseAsync(formValues)
 
-      const createdStartup = await createStartupAction(validatedFormValues)
+      const createdStartup = await createStartupAction(authorID, validatedFormValues)
 
       router.push(`/startup/${createdStartup.slug.current}`)
 

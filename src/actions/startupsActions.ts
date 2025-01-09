@@ -9,7 +9,6 @@ import {
 import { client } from '@/src/sanity/lib/client'
 import { writeClient } from '@/src/sanity/lib/write-client'
 import slugify from 'slugify'
-import { auth } from '@/src/auth'
 import { uploadImageAction } from './imageActions'
 import { randomInt } from 'node:crypto'
 
@@ -46,12 +45,11 @@ type StartupCreationData = {
   image: File | null
 }
 
-export const createStartupAction = async (startupCreationData: StartupCreationData) => {
+export const createStartupAction = async (
+  authorID: string,
+  startupCreationData: StartupCreationData
+) => {
   const { title, description, category, pitch, image } = startupCreationData
-
-  const session = await auth() // TODO - Separar authenticacion
-
-  if (session === null || session.authorID === undefined) throw new Error('User not authenticated')
 
   let imageUpdate: {
     _type: 'image'
@@ -92,7 +90,7 @@ export const createStartupAction = async (startupCreationData: StartupCreationDa
     },
     author: {
       _type: 'reference',
-      _ref: session.authorID,
+      _ref: authorID,
     },
     image: imageUpdate,
   }
