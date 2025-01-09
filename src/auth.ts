@@ -27,8 +27,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (author) return true
 
       let authorImage: File | null = null
-      if (profile.picture as string) {
-        const authorImageFetchResponse = await fetch(profile.picture)
+      if (profile.picture) {
+        const authorImageFetchResponse = await fetch(profile.picture as string)
 
         if (authorImageFetchResponse.ok) {
           authorImage = new File([await authorImageFetchResponse.blob()], profile.name)
