@@ -26,11 +26,16 @@ function CreateStartupForm() {
 
   const handleFormSubmit = async (_: CreateStartupFormErrors, formData: FormData) => {
     const formValues = {
-      title: formData.get('title'),
-      description: formData.get('description'),
-      category: formData.get('category'),
-      image: formData.get('image'),
+      title: formData.get('title') as string,
+      description: formData.get('description') as string,
+      category: formData.get('category') as string,
+      image: formData.get('image') as File | null,
       pitch,
+    }
+
+    if (formValues.image !== null && formValues.image.name === '' && formValues.image.size === 0) {
+      // Esto pasa cuando no se sube ninguna imagen
+      formValues.image = null
     }
 
     try {

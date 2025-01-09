@@ -10,7 +10,6 @@ import { client } from '@/src/sanity/lib/client'
 import { writeClient } from '@/src/sanity/lib/write-client'
 import slugify from 'slugify'
 import { auth } from '@/src/auth'
-import { SanityAssetDocument } from 'next-sanity'
 import { uploadImageAction } from './imageActions'
 import { randomInt } from 'node:crypto'
 
@@ -50,13 +49,27 @@ type StartupCreationData = {
 export const createStartupAction = async (startupCreationData: StartupCreationData) => {
   const { title, description, category, pitch, image } = startupCreationData
 
-  const session = await auth()
+  const session = await auth() // TODO - Separar authenticacion
 
   if (session === null || session.authorID === undefined) throw new Error('User not authenticated')
 
-  let asset: SanityAssetDocument | null = null
+  let imageUpdate: {
+    _type: 'image'
+    asset: {
+      _type: 'reference'
+      _ref: string
+    }
+  } | null = null
+
   if (image !== null) {
-    asset = await uploadImageAction(image, image.name)
+    const asset = await uploadImageAction(image, image.name)
+    imageUpdate = {
+      _type: 'image',
+      asset: {
+        _type: 'reference',
+        _ref: asset._id,
+      },
+    }
   }
 
   let slug = slugify(title, { lower: true, remove: /[*+~.()'"!:@]/g, strict: true })
@@ -81,15 +94,7 @@ export const createStartupAction = async (startupCreationData: StartupCreationDa
       _type: 'reference',
       _ref: session.authorID,
     },
-    image: asset
-      ? {
-          _type: 'image',
-          asset: {
-            _type: 'reference',
-            _ref: asset._id,
-          },
-        }
-      : null,
+    image: imageUpdate,
   }
 
   const createdStartup = await writeClient.create(newStartup)
