@@ -45,6 +45,7 @@ async function Navbar() {
                   style={{ borderRadius: '50%' }}
                   fill
                   alt='Foto de perfil'
+                  className='object-cover'
                 />
               </div>
             </Link>

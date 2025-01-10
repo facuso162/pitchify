@@ -61,7 +61,7 @@ async function StartupDetails({ params }: { params: Params }) {
             src={startupImageURL || '/default-startup-image.webp'}
             alt={formatStartupImageAltText(title)}
             fill
-            className='rounded-xl'
+            className='rounded-xl object-cover'
           />
         </div>
         <div className='flex flex-col gap-2 w-full max-w-5xl'>
@@ -72,7 +72,7 @@ async function StartupDetails({ params }: { params: Params }) {
                   src={authorImageURL || '/default-author-image.webp'}
                   alt={formatAuthorImageAltText(name)}
                   fill
-                  className='rounded-full'
+                  className='rounded-full object-cover'
                 />
               </div>
             </Link>
