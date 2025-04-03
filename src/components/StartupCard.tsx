@@ -65,7 +65,7 @@ function StartupCard({ startup }: StartupCardProps) {
                 src={authorImageURL || '/default-author-image.webp'}
                 fill
                 alt={formatAuthorImageAltText(name)}
-                className='rounded-full'
+                className='rounded-full object-cover'
               />
             </Link>
           </div>
@@ -77,7 +77,7 @@ function StartupCard({ startup }: StartupCardProps) {
               src={startupImageURL || '/default-startup-image.webp'}
               alt={formatStartupImageAltText(title)}
               fill
-              className='rounded-xl'
+              className='rounded-xl object-cover'
             />
           </Link>
         </div>

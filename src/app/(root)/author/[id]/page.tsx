@@ -36,6 +36,7 @@ async function AuthorDetails({ params }: Params) {
                 style={{ borderRadius: '50%' }}
                 fill
                 alt='Foto de perfil'
+                className='object-cover'
               />
             </div>
           </div>

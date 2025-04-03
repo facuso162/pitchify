@@ -60,10 +60,10 @@ export const createAuthorAction = async ({
   }
 
   let username = email.split('@')[0]
-  let author = getAuthorByUsernameAction(username)
+  let author = await getAuthorByUsernameAction(username)
   while (author !== null) {
     username = `${username}${randomInt(0, 1000)}`
-    author = getAuthorByUsernameAction(username)
+    author = await getAuthorByUsernameAction(username)
   }
 
   const newAuthor = {
